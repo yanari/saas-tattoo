@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"
@@ -12,4 +6,65 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  email    String
+  name     String
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TattooStudio {
+  id       String   @id @default(uuid())
+  name     String
+  address  String
+  phones   String[]
+  bio      String
+  imageUrl String
+
+  slug      String   @unique
+  email     String   @unique
+  instagram String?
+  city      String
+  styles    String[] // lista de estilos (ex: ['fineline', 'blackwork'])
+
+  services TattooStudioService[]
+
+  // availability   Json // pode armazenar horários personalizados por dia
+  // paymentMethods String[] // ex: ['pix', 'cartao', 'dinheiro']
+  // signalRequired Boolean  @default(false)
+  // signalAmount   Decimal? // usado se signalRequired for true
+  // portfolio      Tattoo[] // relacionamento com tattoos feitas
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TattooStudioService {
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  imageUrl    String
+  price       Decimal @db.Decimal(10, 2)
+
+  tattooStudioId String
+  tattooStudio   TattooStudio @relation(fields: [tattooStudioId], references: [id])
+  bookings       Booking[]
+}
+
+model Booking {
+  id        String              @id @default(uuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id])
+  serviceId String
+  service   TattooStudioService @relation(fields: [serviceId], references: [id])
+
+  date DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
