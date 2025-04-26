@@ -1,5 +1,5 @@
 -   [x] Database setup
--   [] Database seeding (fill data)
+-   [x] Database seeding (fill data)
 -   [] Next.js
 -   [] Tailwind/Shadcn
 -   [] Git hooks
