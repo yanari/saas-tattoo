@@ -1,7 +1,7 @@
 import { MenuIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import { Logo } from "../svgs/logo";
+import { Logo } from "../ui/logo";
 
 export function Header() {
   return (

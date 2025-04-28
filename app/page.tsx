@@ -1,4 +1,4 @@
-import { Schedule } from "@/components/layout/schedule-item";
+import { Schedule } from "@/components/features/schedule-item";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
@@ -26,7 +26,9 @@ export default function Home() {
       </div>
 
       <div>
-        <h2 className="">Agendamentos</h2>
+        <h2 className="uppercase text-gray-400 text-sm font-bold mb-3">
+          Agendamentos
+        </h2>
         <Schedule />
       </div>
     </div>
