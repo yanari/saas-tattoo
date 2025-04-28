@@ -10,9 +10,9 @@ export default async function Home() {
   const tattooStudios: TattooStudio[] = await db.tattooStudio.findMany();
   console.log({ tattooStudios });
   return (
-    <div className="p-5 grid gap-6">
-      <div>
-        <h2 className="text-xl font-bold">Hello, world</h2>
+    <div className="flex flex-col gap-6 py-6">
+      <div className="px-6">
+        <h2 className="text-xl font-bold">Hello, Marcelle</h2>
         <p>
           {new Intl.DateTimeFormat("pt-BR", {
             weekday: "long",
@@ -23,14 +23,14 @@ export default async function Home() {
         </p>
       </div>
 
-      <div className="gap-2 flex items-center">
+      <div className="px-6 gap-4 flex items-center">
         <Input placeholder="Search..." />
         <Button>
           <SearchIcon />
         </Button>
       </div>
 
-      <div>
+      <div className="px-6">
         <h2 className="uppercase text-gray-400 text-sm font-bold mb-3">
           Agendamentos
         </h2>
@@ -38,10 +38,10 @@ export default async function Home() {
       </div>
 
       <div>
-        <h2 className="uppercase text-gray-400 text-sm font-bold mb-3">
+        <h2 className="px-6 uppercase text-gray-400 text-sm font-bold mb-3">
           Recomendados
         </h2>
-        <div className="flex gap-4">
+        <div className="pl-6 flex gap-4 max-w-full overflow-auto [&::-webkit-scrollbar]:hidden">
           {tattooStudios.map((tattooStudio) => (
             <TattooStudioItem
               key={tattooStudio.id}
