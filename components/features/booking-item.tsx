@@ -2,7 +2,8 @@ import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 
-export function Schedule() {
+// TODO: Receive studio as props
+export function BookingItem() {
   return (
     <Card>
       <CardContent className="flex justify-between">
