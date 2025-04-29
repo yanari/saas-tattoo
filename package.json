@@ -12,6 +12,11 @@
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 2,
+    "semi": false
+  },
   "dependencies": {
     "@prisma/client": "^6.6.0",
     "@radix-ui/react-avatar": "^1.1.7",
