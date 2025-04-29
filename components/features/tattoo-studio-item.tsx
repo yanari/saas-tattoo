@@ -10,7 +10,7 @@ interface TattooStudioItemProps {
 }
 export function TattooStudioItem({ tattooStudio }: TattooStudioItemProps) {
   return (
-    <Card className="min-w-40 p-0 overflow-hidden">
+    <Card className="min-w-44 p-0 overflow-hidden">
       <CardContent className="p-0">
         <div className="relative h-40 w-full">
           <Badge variant="secondary" className="absolute top-2 left-2 z-10">
