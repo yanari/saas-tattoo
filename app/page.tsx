@@ -1,20 +1,20 @@
-import { BookingItem } from "@/components/features/booking-item";
-import { TattooStudioItem } from "@/components/features/tattoo-studio-item";
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { db } from "@/lib/prisma";
-import { formatDate } from "@/utils/date";
-import { SearchIcon } from "lucide-react";
+import { BookingItem } from '@/components/features/booking-item'
+import { TattooStudioItem } from '@/components/features/tattoo-studio-item'
+import { Footer } from '@/components/layout/footer'
+import { Header } from '@/components/layout/header'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { db } from '@/lib/prisma'
+import { formatDate } from '@/utils/date'
+import { SearchIcon } from 'lucide-react'
 
 export default async function Home() {
-  const studios = await db.tattooStudio.findMany();
+  const studios = await db.tattooStudio.findMany()
   const popularStudios = await db.tattooStudio.findMany({
     orderBy: {
-      name: "desc",
+      name: 'desc',
     },
-  });
+  })
 
   return (
     <div>
@@ -62,5 +62,5 @@ export default async function Home() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }

@@ -1,26 +1,26 @@
-import { Button } from "@/components/ui/button";
-import { db } from "@/lib/prisma";
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { Button } from '@/components/ui/button'
+import { db } from '@/lib/prisma'
+import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 interface StudioPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>
 }
 export default async function StudioPage(props: StudioPageProps) {
-  const params = await props.params;
+  const params = await props.params
 
-  const decodedSlug = decodeURIComponent(params.slug);
+  const decodedSlug = decodeURIComponent(params.slug)
 
   const studio = await db.tattooStudio.findUnique({
     where: {
       slug: decodedSlug,
     },
-  });
+  })
 
   if (!studio) {
-    return notFound();
+    return notFound()
   }
 
   return (
@@ -75,5 +75,5 @@ export default async function StudioPage(props: StudioPageProps) {
         <p className="text-justify text-sm">{studio.bio}</p>
       </div>
     </div>
-  );
+  )
 }

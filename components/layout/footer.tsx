@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from '../ui/card'
 
 export function Footer() {
   return (
@@ -9,5 +9,5 @@ export function Footer() {
         </CardContent>
       </Card>
     </footer>
-  );
+  )
 }

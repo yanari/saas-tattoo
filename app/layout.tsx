@@ -1,14 +1,14 @@
-import "./globals.css";
+import './globals.css'
 
-import { geistMono, geistSans } from "@/lib/fonts";
-import { metadata } from "@/lib/metadata";
+import { geistMono, geistSans } from '@/lib/fonts'
+import { metadata } from '@/lib/metadata'
 
-export { metadata };
+export { metadata }
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -16,5 +16,5 @@ export default function RootLayout({
         {children}
       </body>
     </html>
-  );
+  )
 }
