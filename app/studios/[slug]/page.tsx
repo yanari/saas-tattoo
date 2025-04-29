@@ -1,14 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/prisma";
-import {
-  ChevronLeftIcon,
-  Loader2,
-  MapPinIcon,
-  MenuIcon,
-  StarIcon,
-} from "lucide-react";
+import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface StudioPageProps {
   params: Promise<{ slug: string }>;
@@ -25,7 +20,7 @@ export default async function StudioPage(props: StudioPageProps) {
   });
 
   if (!studio) {
-    return <Loader2 />;
+    return notFound();
   }
 
   return (
