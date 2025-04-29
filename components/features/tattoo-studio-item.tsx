@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { StarIcon } from "lucide-react";
+import Link from "next/link";
 
 interface TattooStudioItemProps {
   studio: TattooStudio;
@@ -22,13 +23,14 @@ export function TattooStudioItem({ studio }: TattooStudioItemProps) {
             alt={studio.name}
             className="object-cover"
             fill={true}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
         <div className="px-2 py-3 gap-1 flex flex-col">
           <h3 className="truncate font-semibold">{studio.name}</h3>
           <p className="truncate text-sm text-gray-400">{studio.address}</p>
-          <Button variant="secondary" className="mt-3 w-full">
-            Reservar
+          <Button asChild variant="secondary" className="mt-3 w-full">
+            <Link href={`/studios/${studio.slug}`}>Reservar</Link>
           </Button>
         </div>
       </CardContent>
