@@ -17,7 +17,7 @@ export function BookingItem() {
             <p className="text-sm">Rock Tattoo</p>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center pl-6 border-l-2 border-solid w-24">
+        <div className="flex w-24 flex-col items-center justify-center border-l-2 border-solid pl-6">
           <p className="text-sm">Novembro</p>
           <p className="text-2xl font-semibold">05</p>
           <p className="text-sm">20:00</p>

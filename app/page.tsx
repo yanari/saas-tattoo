@@ -24,7 +24,7 @@ export default async function Home() {
           <p>{formatDate()}</p>
         </div>
 
-        <div className="px-6 gap-4 flex items-center">
+        <div className="flex items-center gap-4 px-6">
           <Input placeholder="Pesquisar..." />
           <Button>
             <SearchIcon />
@@ -32,27 +32,27 @@ export default async function Home() {
         </div>
 
         <section className="px-6">
-          <h2 className="uppercase text-gray-400 text-sm font-bold mb-3">
+          <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">
             Agendamentos
           </h2>
           <BookingItem />
         </section>
 
         <section>
-          <h2 className="px-6 uppercase text-gray-400 text-sm font-bold mb-3">
+          <h2 className="mb-3 px-6 text-sm font-bold text-gray-400 uppercase">
             Recomendados
           </h2>
-          <div className="pl-6 flex gap-4 max-w-full overflow-auto [&::-webkit-scrollbar]:hidden">
+          <div className="flex max-w-full gap-4 overflow-auto pl-6 [&::-webkit-scrollbar]:hidden">
             {studios.map((studio) => (
               <TattooStudioItem key={studio.id} studio={studio} />
             ))}
           </div>
         </section>
         <section>
-          <h2 className="px-6 uppercase text-gray-400 text-sm font-bold mb-3">
+          <h2 className="mb-3 px-6 text-sm font-bold text-gray-400 uppercase">
             Populares
           </h2>
-          <div className="pl-6 flex gap-4 max-w-full overflow-auto [&::-webkit-scrollbar]:hidden">
+          <div className="flex max-w-full gap-4 overflow-auto pl-6 [&::-webkit-scrollbar]:hidden">
             {popularStudios.map((studio) => (
               <TattooStudioItem key={studio.id} studio={studio} />
             ))}

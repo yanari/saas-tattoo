@@ -11,20 +11,20 @@ interface ServiceItemProps {
 export function ServiceItem({ service }: ServiceItemProps) {
   return (
     <Card className="p-0">
-      <CardContent className="flex items-center sm:justify-start justify-between p-4 gap-4">
-        <div className="relative min-w-32 min-h-32 max-h-32 max-w-32">
+      <CardContent className="flex items-center justify-between gap-4 p-4 sm:justify-start">
+        <div className="relative max-h-32 min-h-32 max-w-32 min-w-32">
           <Image
-            className="rounded-lg object-cover w-full"
+            className="w-full rounded-lg object-cover"
             src={service.imageUrl}
             alt={service.name}
             sizes="(max-width: 768px) 100vw"
             fill
           />
         </div>
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex w-full flex-col gap-2">
           <h3 className="text-lg font-semibold">{service.name}</h3>
           <p className="text-sm text-gray-400">{service.description}</p>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <span className="text-primary font-bold">
               {Intl.NumberFormat('pt-BR', {
                 style: 'currency',
