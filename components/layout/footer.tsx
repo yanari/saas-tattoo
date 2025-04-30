@@ -2,7 +2,7 @@ import { Card, CardContent } from '../ui/card'
 
 export function Footer() {
   return (
-    <footer>
+    <footer className="mt-8">
       <Card className="rounded-b-none font-mono">
         <CardContent>
           © {new Date().getFullYear()} Copyright InkBook

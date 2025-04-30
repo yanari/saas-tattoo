@@ -1,9 +1,9 @@
-import { Footer } from '@/components/layout/footer'
 import './globals.css'
 
+import { Toaster } from 'sonner'
 import { geistMono, geistSans } from '@/lib/fonts'
 import { metadata } from '@/lib/metadata'
-import { Toaster } from 'sonner'
+import { Footer } from '@/components/layout/footer'
 
 export { metadata }
 
