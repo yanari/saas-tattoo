@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="mt-8">
       <Card className="rounded-b-none font-mono">
         <CardContent>
-          © {new Date().getFullYear()} Copyright InkBook
+          © {new Date().getFullYear()} Copyright InkBookd
         </CardContent>
       </Card>
     </footer>

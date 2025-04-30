@@ -1,18 +1,18 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'InkBooked - Organize Seu Estúdio de Tatuagem',
+  title: 'InkBookd - Organize Seu Estúdio de Tatuagem',
   description:
     'A plataforma completa para estúdios de tatuagem. Esqueça o Direct e simplifique a gestão do seu estúdio.',
   openGraph: {
-    title: 'InkBooked - Organize Seu Estúdio de Tatuagem',
+    title: 'InkBookd - Organize Seu Estúdio de Tatuagem',
     description:
       'A plataforma completa para estúdios de tatuagem. Esqueça o Direct e simplifique a gestão do seu estúdio.',
-    url: 'https://inkbooked.vercel.app',
-    siteName: 'InkBooked',
+    url: 'https://inkbookd.vercel.app',
+    siteName: 'InkBookd',
     images: [
       {
-        url: 'https://inkbooked.vercel.app/og-image.jpg',
+        url: 'https://inkbookd.vercel.app/og-image.jpg',
         width: 1200,
         height: 630,
       },
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'InkBooked - Organize Seu Estúdio de Tatuagem',
+    title: 'InkBookd - Organize Seu Estúdio de Tatuagem',
     description:
       'A plataforma completa para estúdios de tatuagem. Esqueça o Direct e simplifique a gestão do seu estúdio.',
-    images: ['https://inkbooked.vercel.app/og-image.jpg'],
+    images: ['https://inkbookd.vercel.app/og-image.jpg'],
   },
 }
