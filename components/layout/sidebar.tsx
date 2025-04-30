@@ -1,8 +1,17 @@
-import { HomeIcon, CalendarIcon, LogOutIcon } from 'lucide-react'
+import { HomeIcon, CalendarIcon, LogOutIcon, LogInIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import { SheetContent, SheetHeader, SheetTitle, SheetClose } from '../ui/sheet'
 import Link from 'next/link'
-import { Avatar, AvatarImage } from '../ui/avatar'
+// import { Avatar, AvatarImage } from '../ui/avatar'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog'
+import Image from 'next/image'
 
 export function Sidebar() {
   return (
@@ -11,15 +20,41 @@ export function Sidebar() {
         <SheetTitle>Menu</SheetTitle>
       </SheetHeader>
 
-      <div className="flex items-center gap-3 border-b border-solid p-6">
-        <Avatar>
+      <div className="flex items-center justify-between gap-3 border-b border-solid p-6">
+        <h2 className="font-bold">Olá! Faça seu login</h2>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="icon">
+              <LogInIcon />
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent className="w-11/12">
+            <DialogHeader>
+              <DialogTitle>Faça login na plataforma</DialogTitle>
+              <DialogDescription>Conecte-se usando o Google</DialogDescription>
+            </DialogHeader>
+
+            <Button variant="outline" className="font-bold">
+              <Image
+                className="text-white"
+                alt="Google"
+                src="/google.svg"
+                width={24}
+                height={24}
+              />
+              Google
+            </Button>
+          </DialogContent>
+        </Dialog>
+        {/* <Avatar>
           <AvatarImage src="https://github.com/yanari.png" />
         </Avatar>
 
         <div>
           <p className="font-bold">Marcelle Yanari</p>
           <p className="text-xs">yanarimy@gmail.com</p>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col border-b border-solid p-6">
