@@ -1,6 +1,8 @@
 import { PhoneItem } from '@/components/features/studios/phone-item'
 import { ServiceItem } from '@/components/features/studios/service-item'
+import { Sidebar } from '@/components/layout/sidebar'
 import { Button } from '@/components/ui/button'
+import { Sheet, SheetTrigger } from '@/components/ui/sheet'
 import { db } from '@/lib/prisma'
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from 'lucide-react'
 import Image from 'next/image'
@@ -30,7 +32,7 @@ export default async function StudioPage(props: StudioPageProps) {
 
   return (
     <div>
-      <div className="relative w-full h-64">
+      <div className="relative h-64 w-full">
         <Image
           src={studio.imageUrl}
           fill
@@ -42,31 +44,37 @@ export default async function StudioPage(props: StudioPageProps) {
           asChild
           size="icon"
           variant="secondary"
-          className="absolute left-4 top-4"
+          className="absolute top-4 left-4"
         >
           <Link href="/">
             <ChevronLeftIcon />
           </Link>
         </Button>
 
-        <Button
-          size="icon"
-          variant="secondary"
-          className="absolute right-4 top-4"
-        >
-          <MenuIcon />
-        </Button>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              size="icon"
+              variant="secondary"
+              className="absolute top-4 right-4"
+            >
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+
+          <Sidebar />
+        </Sheet>
       </div>
 
-      <div className="p-5 border-b border-solid">
-        <h1 className="font-bold text-xl mb-3">{studio.name}</h1>
+      <div className="border-b border-solid p-5">
+        <h1 className="mb-3 text-xl font-bold">{studio.name}</h1>
 
-        <div className="flex gap-2 items-center mb-2">
+        <div className="mb-2 flex items-center gap-2">
           <MapPinIcon className="text-primary" size={16} />
           <p className="text-sm">{studio.address}</p>
         </div>
 
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <StarIcon className="text-primary" size={16} />
           <p className="text-sm">
             {/* TODO: implement rating system */}
@@ -75,14 +83,14 @@ export default async function StudioPage(props: StudioPageProps) {
         </div>
       </div>
 
-      <div className="p-5 border-b border-solid space-y-3">
-        <h2 className="uppercase text-gray-400 text-sm font-bold">Sobre Nós</h2>
+      <div className="space-y-3 border-b border-solid p-5">
+        <h2 className="text-sm font-bold text-gray-400 uppercase">Sobre Nós</h2>
 
         <p className="text-justify text-sm">{studio.bio}</p>
       </div>
 
-      <div className="p-5 border-b border-solid space-y-3">
-        <h2 className="uppercase text-gray-400 text-sm font-bold">Serviços</h2>
+      <div className="space-y-3 border-b border-solid p-5">
+        <h2 className="text-sm font-bold text-gray-400 uppercase">Serviços</h2>
 
         <ul className="grid gap-4 xl:grid-cols-4">
           {studio.services.map((service) => (
@@ -93,8 +101,8 @@ export default async function StudioPage(props: StudioPageProps) {
         </ul>
       </div>
 
-      <div className="p-5 border-b border-solid space-y-3">
-        <h2 className="uppercase text-gray-400 text-sm font-bold">Contatos</h2>
+      <div className="space-y-3 border-b border-solid p-5">
+        <h2 className="text-sm font-bold text-gray-400 uppercase">Contatos</h2>
         {studio.phones.map((phone) => (
           <PhoneItem phone={phone} key={phone} />
         ))}
