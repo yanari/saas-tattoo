@@ -1,3 +1,5 @@
+import { PhoneItem } from '@/components/features/phone-item'
+import { ServiceItem } from '@/components/features/service-item'
 import { Button } from '@/components/ui/button'
 import { db } from '@/lib/prisma'
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from 'lucide-react'
@@ -16,6 +18,9 @@ export default async function StudioPage(props: StudioPageProps) {
   const studio = await db.tattooStudio.findUnique({
     where: {
       slug: decodedSlug,
+    },
+    include: {
+      services: true,
     },
   })
 
@@ -72,7 +77,27 @@ export default async function StudioPage(props: StudioPageProps) {
 
       <div className="p-5 border-b border-solid space-y-3">
         <h2 className="uppercase text-gray-400 text-sm font-bold">Sobre Nós</h2>
+
         <p className="text-justify text-sm">{studio.bio}</p>
+      </div>
+
+      <div className="p-5 border-b border-solid space-y-3">
+        <h2 className="uppercase text-gray-400 text-sm font-bold">Serviços</h2>
+
+        <ul className="grid gap-4 xl:grid-cols-4">
+          {studio.services.map((service) => (
+            <li key={service.id}>
+              <ServiceItem service={service} />
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="p-5 border-b border-solid space-y-3">
+        <h2 className="uppercase text-gray-400 text-sm font-bold">Contatos</h2>
+        {studio.phones.map((phone) => (
+          <PhoneItem phone={phone} key={phone} />
+        ))}
       </div>
     </div>
   )
