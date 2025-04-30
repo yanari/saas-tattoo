@@ -3,6 +3,7 @@ import { TattooStudioItem } from '@/components/features/tattoo-studio-item'
 import { Header } from '@/components/layout/header'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Welcome } from '@/components/ui/welcome'
 import { db } from '@/lib/prisma'
 import { formatDate } from '@/utils/date'
 import { SearchIcon } from 'lucide-react'
@@ -20,7 +21,7 @@ export default async function Home() {
       <Header />
       <div className="flex flex-col gap-6 pt-6">
         <div className="px-6">
-          <h2 className="text-xl font-bold">Olá, Marcelle</h2>
+          <Welcome />
           <p>{formatDate()}</p>
         </div>
 

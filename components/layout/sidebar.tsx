@@ -1,8 +1,10 @@
+'use client'
+
 import { HomeIcon, CalendarIcon, LogOutIcon, LogInIcon } from 'lucide-react'
 import { Button } from '../ui/button'
 import { SheetContent, SheetHeader, SheetTitle, SheetClose } from '../ui/sheet'
 import Link from 'next/link'
-// import { Avatar, AvatarImage } from '../ui/avatar'
+import { Avatar, AvatarImage } from '../ui/avatar'
 import {
   Dialog,
   DialogContent,
@@ -11,50 +13,59 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog'
-import Image from 'next/image'
+
+import { LoginButton } from '../ui/login-button'
+import { signOut, useSession } from 'next-auth/react'
 
 export function Sidebar() {
+  const { data: session } = useSession()
+
+  const logOut = () => signOut()
+
   return (
     <SheetContent>
       <SheetHeader>
         <SheetTitle>Menu</SheetTitle>
       </SheetHeader>
 
-      <div className="flex items-center justify-between gap-3 border-b border-solid p-6">
-        <h2 className="font-bold">Olá! Faça seu login</h2>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button size="icon">
-              <LogInIcon />
-            </Button>
-          </DialogTrigger>
+      <div className="border-b border-solid">
+        <div className="flex items-center justify-between gap-3 p-6">
+          {session ? (
+            <div className="flex items-center gap-3">
+              <Avatar>
+                <AvatarImage src={session?.user?.image ?? ''} />
+              </Avatar>
 
-          <DialogContent className="w-11/12">
-            <DialogHeader>
-              <DialogTitle>Faça login na plataforma</DialogTitle>
-              <DialogDescription>Conecte-se usando o Google</DialogDescription>
-            </DialogHeader>
+              <div>
+                <p className="font-bold">{session?.user?.name}</p>
+                <p className="text-xs">{session?.user?.email}</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h2 className="font-bold">Olá! Faça seu login</h2>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="icon">
+                    <LogInIcon />
+                  </Button>
+                </DialogTrigger>
 
-            <Button variant="outline" className="font-bold">
-              <Image
-                className="text-white"
-                alt="Google"
-                src="/google.svg"
-                width={24}
-                height={24}
-              />
-              Google
-            </Button>
-          </DialogContent>
-        </Dialog>
-        {/* <Avatar>
-          <AvatarImage src="https://github.com/yanari.png" />
-        </Avatar>
+                <DialogContent className="w-11/12">
+                  <DialogHeader>
+                    <DialogTitle>Faça login na plataforma</DialogTitle>
+                    <DialogDescription>
+                      Conecte-se usando o Google
+                    </DialogDescription>
+                  </DialogHeader>
 
-        <div>
-          <p className="font-bold">Marcelle Yanari</p>
-          <p className="text-xs">yanarimy@gmail.com</p>
-        </div> */}
+                  <LoginButton provider="google" />
+                  <LoginButton provider="instagram" />
+                </DialogContent>
+              </Dialog>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col border-b border-solid p-6">
@@ -83,11 +94,13 @@ export function Sidebar() {
       </div>
 
       <div className="grid p-6">
-        <Button asChild variant="ghost" className="w-full">
-          <Link className="flex justify-start" href="/">
-            <LogOutIcon />
-            Sair da conta
-          </Link>
+        <Button
+          onClick={logOut}
+          variant="ghost"
+          className="flex w-full justify-start"
+        >
+          <LogOutIcon />
+          Sair da conta
         </Button>
       </div>
     </SheetContent>
