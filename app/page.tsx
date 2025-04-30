@@ -1,6 +1,5 @@
 import { BookingItem } from '@/components/features/booking-item'
 import { TattooStudioItem } from '@/components/features/tattoo-studio-item'
-import { Footer } from '@/components/layout/footer'
 import { Header } from '@/components/layout/header'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -60,7 +59,6 @@ export default async function Home() {
           </div>
         </section>
       </div>
-      <Footer />
     </div>
   )
 }

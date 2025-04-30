@@ -1,3 +1,4 @@
+import { Footer } from '@/components/layout/footer'
 import './globals.css'
 
 import { geistMono, geistSans } from '@/lib/fonts'
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
+        <Footer />
         <Toaster theme="dark" />
       </body>
     </html>
