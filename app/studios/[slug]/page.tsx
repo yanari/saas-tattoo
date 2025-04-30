@@ -12,10 +12,11 @@ import { notFound } from 'next/navigation'
 interface StudioPageProps {
   params: Promise<{ slug: string }>
 }
-export default async function StudioPage(props: StudioPageProps) {
-  const params = await props.params
 
-  const decodedSlug = decodeURIComponent(params.slug)
+export default async function StudioPage({ params }: StudioPageProps) {
+  const { slug } = await params
+
+  const decodedSlug = decodeURIComponent(slug)
 
   const studio = await db.tattooStudio.findUnique({
     where: {

@@ -1,12 +1,10 @@
 import { BookingItem } from '@/components/features/booking-item'
 import { TattooStudioItem } from '@/components/features/tattoo-studio-item'
 import { Header } from '@/components/layout/header'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { SearchForm } from '@/components/layout/search-form'
 import { Welcome } from '@/components/ui/welcome'
 import { db } from '@/lib/prisma'
 import { formatDate } from '@/utils/date'
-import { SearchIcon } from 'lucide-react'
 
 export default async function Home() {
   const studios = await db.tattooStudio.findMany()
@@ -25,12 +23,7 @@ export default async function Home() {
           <p>{formatDate()}</p>
         </div>
 
-        <div className="flex items-center gap-4 px-6">
-          <Input placeholder="Pesquisar..." />
-          <Button>
-            <SearchIcon />
-          </Button>
-        </div>
+        <SearchForm />
 
         <section className="px-6">
           <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">

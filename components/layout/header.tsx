@@ -19,7 +19,6 @@ export function Header() {
             height={36}
             priority
           />
-          {/* <Logo className="fill-primary h-12 w-32" /> */}
         </Link>
         <Sheet>
           <SheetTrigger asChild>

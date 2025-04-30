@@ -2,7 +2,13 @@
 
 import { HomeIcon, CalendarIcon, LogOutIcon, LogInIcon } from 'lucide-react'
 import { Button } from '../ui/button'
-import { SheetContent, SheetHeader, SheetTitle, SheetClose } from '../ui/sheet'
+import {
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+  SheetDescription,
+} from '../ui/sheet'
 import Link from 'next/link'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import {
@@ -27,6 +33,7 @@ export function Sidebar() {
       <SheetHeader>
         <SheetTitle>Menu</SheetTitle>
       </SheetHeader>
+      <SheetDescription className="hidden">Sidebar menu</SheetDescription>
 
       <div className="border-b border-solid">
         <div className="flex items-center justify-between gap-3 p-6">
@@ -60,7 +67,7 @@ export function Sidebar() {
                   </DialogHeader>
 
                   <LoginButton provider="google" />
-                  <LoginButton provider="instagram" />
+                  {/* <LoginButton provider="instagram" /> */}
                 </DialogContent>
               </Dialog>
             </>
