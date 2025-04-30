@@ -1,9 +1,10 @@
 import './globals.css'
 
 import { Toaster } from 'sonner'
-import { geistMono, geistSans } from '@/lib/fonts'
+import { inter, ptMono } from '@/lib/fonts'
 import { metadata } from '@/lib/metadata'
 import { Footer } from '@/components/layout/footer'
+import { AuthProvider } from '@/providers/auth'
 
 export { metadata }
 
@@ -14,10 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-        <Footer />
-        <Toaster theme="dark" />
+      <body className={`${inter.variable} ${ptMono.variable}`}>
+        <AuthProvider>
+          {children}
+          <Footer />
+          <Toaster theme="dark" />
+        </AuthProvider>
       </body>
     </html>
   )
