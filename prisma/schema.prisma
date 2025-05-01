@@ -65,13 +65,12 @@ model VerificationToken {
 
 // My Schemas
 model TattooStudio {
-  id       String   @id @default(uuid())
-  name     String
-  address  String
-  phones   String[]
-  bio      String
-  imageUrl String
-
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  phones    String[]
+  bio       String
+  imageUrl  String?
   slug      String   @unique
   email     String   @unique
   instagram String?
@@ -79,12 +78,6 @@ model TattooStudio {
   styles    String[] // lista de estilos (ex: ['fineline', 'blackwork'])
 
   services TattooStudioService[]
-
-  // availability   Json // pode armazenar horários personalizados por dia
-  // paymentMethods String[] // ex: ['pix', 'cartao', 'dinheiro']
-  // signalRequired Boolean  @default(false)
-  // signalAmount   Decimal? // usado se signalRequired for true
-  // portfolio      Tattoo[] // relacionamento com tattoos feitas
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -94,12 +87,21 @@ model TattooStudioService {
   id          String  @id @default(uuid())
   name        String
   description String
-  imageUrl    String
+  imageUrl    String?
   price       Decimal @db.Decimal(10, 2)
 
   tattooStudioId String
   tattooStudio   TattooStudio @relation(fields: [tattooStudioId], references: [id])
   bookings       Booking[]
+
+  availabilitySlots AvailabilitySlot[] @relation("TattooStudioServiceToAvailabilitySlot")
+}
+
+enum BookingStatus {
+  pending
+  confirmed
+  cancelled
+  completed
 }
 
 model Booking {
@@ -109,8 +111,26 @@ model Booking {
   serviceId String
   service   TattooStudioService @relation(fields: [serviceId], references: [id])
 
-  date DateTime
+  date      DateTime
+  startTime DateTime // usage: format(new Date(startTime), 'HH:mm')
+  endTime   DateTime // usage: format(new Date(endTime), 'HH:mm')
+
+  status BookingStatus @default(pending)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, status])
+}
+
+model AvailabilitySlot {
+  id                    String   @id @default(uuid())
+  tattooStudioServiceId String
+  dayOfWeek             Int
+  startTime             DateTime // ex: '1970-01-01T10:00:00.000Z'
+  endTime               DateTime // idem
+
+  tattooStudioService TattooStudioService @relation("TattooStudioServiceToAvailabilitySlot", fields: [tattooStudioServiceId], references: [id])
+
+  @@index([tattooStudioServiceId, dayOfWeek])
 }

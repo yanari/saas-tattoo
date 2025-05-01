@@ -34,7 +34,7 @@ export function ServiceItem({ service }: ServiceItemProps) {
         <div className="relative max-h-32 min-h-32 max-w-32 min-w-32">
           <Image
             className="w-full rounded-lg object-cover"
-            src={service.imageUrl}
+            src={service.imageUrl ?? ''}
             alt={service.name}
             sizes="(max-width: 768px) 100vw"
             fill

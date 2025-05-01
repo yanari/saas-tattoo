@@ -36,16 +36,16 @@ async function seedDatabase() {
 
     // Endereços fictícios para os estúdios de tatuagem
     const addresses = [
-      'Rua da Tinta, 123',
-      'Avenida das Agulhas, 456',
-      'Praça do Estilo, 789',
-      'Travessa da Arte, 101',
-      'Alameda da Pele, 202',
-      'Estrada do Desenho, 303',
-      'Avenida da Tinta, 404',
-      'Praça da Agulha, 505',
-      'Rua da Arte, 606',
-      'Avenida do Estilo, 707',
+      'Rua Bela Cintra, 135',
+      'Avenida São João, 900',
+      'Rua dos Três Irmãos, 257',
+      'Rua Doutor Cesário Mota, 1000',
+      'Rua Consolação, 47',
+      'Rua Pinheiros, 150',
+      'Avenida Paulista, 2000',
+      'Rua Augusta, 975',
+      'Rua Maria Antônia, 455',
+      'Avenida Faria Lima, 800',
     ]
 
     const services = [
@@ -55,6 +55,23 @@ async function seedDatabase() {
         price: 300.0,
         imageUrl:
           'https://img.freepik.com/free-photo/tattooed-man-clasping-his-hands-hit-stomach-while-lying-floor-2-october-2020-chippenham-uk_53876-105702.jpg?t=st=1745653052~exp=1745656652~hmac=a15ea7396bf14d413dba3bd9b2872cc027999db4ad1c68118911660ffd873e8b&w=740',
+        availabilitySlots: [
+          {
+            dayOfWeek: 0,
+            startTime: new Date('1970-01-01T09:00:00.000Z'),
+            endTime: new Date('1970-01-01T11:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 1,
+            startTime: new Date('1970-01-01T13:00:00.000Z'),
+            endTime: new Date('1970-01-01T15:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 2,
+            startTime: new Date('1970-01-01T09:00:00.000Z'),
+            endTime: new Date('1970-01-01T11:00:00.000Z'),
+          },
+        ],
       },
       {
         name: 'Blackwork',
@@ -62,6 +79,23 @@ async function seedDatabase() {
         price: 250.0,
         imageUrl:
           'https://img.freepik.com/free-photo/tattoo-salon-process-tattoo-girl-stuffed-tattoo-process-stuffing-tattoo-body-hands-close-up_1321-3003.jpg?t=st=1745653027~exp=1745656627~hmac=7105861a02a88712e060a638d575c50c8041517f74d9aca2ce12722eb1187210&w=740',
+        availabilitySlots: [
+          {
+            dayOfWeek: 3,
+            startTime: new Date('1970-01-01T14:00:00.000Z'),
+            endTime: new Date('1970-01-01T16:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 4,
+            startTime: new Date('1970-01-01T10:00:00.000Z'),
+            endTime: new Date('1970-01-01T12:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 5,
+            startTime: new Date('1970-01-01T15:00:00.000Z'),
+            endTime: new Date('1970-01-01T17:00:00.000Z'),
+          },
+        ],
       },
       {
         name: 'Fineline',
@@ -69,6 +103,23 @@ async function seedDatabase() {
         price: 200.0,
         imageUrl:
           'https://img.freepik.com/free-photo/top-view-clean-shaven-man-with-tattoos_1122-1461.jpg?t=st=1745653004~exp=1745656604~hmac=e1f4a5e25d9e286a119457e45eb00d69648f07ac875bd726b67e38aff2d1d84a&w=740',
+        availabilitySlots: [
+          {
+            dayOfWeek: 6,
+            startTime: new Date('1970-01-01T08:00:00.000Z'),
+            endTime: new Date('1970-01-01T10:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 0,
+            startTime: new Date('1970-01-01T12:00:00.000Z'),
+            endTime: new Date('1970-01-01T14:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 1,
+            startTime: new Date('1970-01-01T16:00:00.000Z'),
+            endTime: new Date('1970-01-01T18:00:00.000Z'),
+          },
+        ],
       },
       {
         name: 'Aquarela',
@@ -76,6 +127,23 @@ async function seedDatabase() {
         price: 350.0,
         imageUrl:
           'https://img.freepik.com/free-photo/master-making-tattoo-with-iron_23-2147834107.jpg?t=st=1745652925~exp=1745656525~hmac=9703db966bc178690ead744b09e773e8ee5a0c2ad23312b54b56d0a267dd9397&w=740',
+        availabilitySlots: [
+          {
+            dayOfWeek: 2,
+            startTime: new Date('1970-01-01T11:00:00.000Z'),
+            endTime: new Date('1970-01-01T13:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 3,
+            startTime: new Date('1970-01-01T09:00:00.000Z'),
+            endTime: new Date('1970-01-01T11:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 4,
+            startTime: new Date('1970-01-01T14:00:00.000Z'),
+            endTime: new Date('1970-01-01T16:00:00.000Z'),
+          },
+        ],
       },
       {
         name: 'Reparação de Tatuagem',
@@ -83,6 +151,23 @@ async function seedDatabase() {
         price: 150.0,
         imageUrl:
           'https://img.freepik.com/free-photo/vertical-shot-professional-tattoo-artist-black-latex-gloves-preparing-machine-tattooing_181624-24508.jpg?t=st=1745652823~exp=1745656423~hmac=a12d67b847252c959535beea677b88ee21b7c9d9b56fdaf21bb683512c16b4b4&w=740',
+        availabilitySlots: [
+          {
+            dayOfWeek: 5,
+            startTime: new Date('1970-01-01T10:00:00.000Z'),
+            endTime: new Date('1970-01-01T12:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 6,
+            startTime: new Date('1970-01-01T13:00:00.000Z'),
+            endTime: new Date('1970-01-01T15:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 0,
+            startTime: new Date('1970-01-01T11:00:00.000Z'),
+            endTime: new Date('1970-01-01T13:00:00.000Z'),
+          },
+        ],
       },
       {
         name: 'Piercing',
@@ -90,6 +175,23 @@ async function seedDatabase() {
         price: 80.0,
         imageUrl:
           'https://img.freepik.com/free-photo/man-with-mustache-smoking-cigarette_1122-687.jpg?t=st=1745652942~exp=1745656542~hmac=2d9b443a229f3155e382ae019c20171c0516e07e29e8d06d337da04d39b052de&w=740',
+        availabilitySlots: [
+          {
+            dayOfWeek: 1,
+            startTime: new Date('1970-01-01T10:00:00.000Z'),
+            endTime: new Date('1970-01-01T12:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 2,
+            startTime: new Date('1970-01-01T14:00:00.000Z'),
+            endTime: new Date('1970-01-01T16:00:00.000Z'),
+          },
+          {
+            dayOfWeek: 3,
+            startTime: new Date('1970-01-01T12:00:00.000Z'),
+            endTime: new Date('1970-01-01T14:00:00.000Z'),
+          },
+        ],
       },
     ]
 
@@ -100,17 +202,43 @@ async function seedDatabase() {
       const address = addresses[i]
       const imageUrl = images[i]
 
+      const styles = [
+        'Old School',
+        'Fineline',
+        'Geometric',
+        'Blackwork',
+        'Watercolor',
+        'Realism',
+        'Japanese',
+        'Tribal',
+        'New School',
+        'Dotwork',
+      ]
+
       const tattooStudio = await prisma.tattooStudio.create({
         data: {
           name,
           address,
+          instagram: `@${name.toLowerCase().replace(/\s+/g, '')}`,
           imageUrl: imageUrl,
-          phones: ['(11) 99999-9999', '(11) 99999-9999'],
+          phones: Array.from(
+            { length: 2 },
+            (_, i) =>
+              `(11) ${String(99999 + i).padStart(5, '0')}-${String(i + 1).padStart(4, '0')}`,
+          ),
           bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ac augue ullamcorper, pharetra orci mollis, auctor tellus. Phasellus pharetra erat ac libero efficitur tempus.',
           slug: name.toLowerCase().replace(/\s+/g, '-'),
           email: `${name.toLowerCase().replace(/\s+/g, '')}@gmail.com`,
-          city: 'São Paulo',
-          styles: ['fineline', 'blackwork', 'aquarela'],
+          city: [
+            'São Paulo',
+            'Guarulhos',
+            'Campinas',
+            'São Bernardo do Campo',
+            'São José dos Campos',
+          ][Math.floor(Math.random() * 5)],
+          styles: [...Array(Math.floor(Math.random() * styles.length))].map(
+            () => styles[Math.floor(Math.random() * styles.length)],
+          ),
         },
       })
 
@@ -126,6 +254,13 @@ async function seedDatabase() {
               },
             },
             imageUrl: service.imageUrl,
+            availabilitySlots: {
+              create: service.availabilitySlots.map((slot) => ({
+                dayOfWeek: slot.dayOfWeek,
+                startTime: slot.startTime,
+                endTime: slot.endTime,
+              })),
+            },
           },
         })
       }
