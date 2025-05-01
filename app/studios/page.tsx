@@ -6,12 +6,13 @@ import { SearchForm } from '@/components/layout/search-form'
 import { findStudiosWithMatchingServices } from '@/lib/prisma/queries/studios'
 
 interface StudioPageProps {
-  searchParams: {
+  searchParams: Promise<{
     search?: string
-  }
+  }>
 }
 
-export default async function StudiosPage({ searchParams }: StudioPageProps) {
+export default async function StudiosPage(props: StudioPageProps) {
+  const searchParams = await props.searchParams
   const search = searchParams?.search || ''
 
   const studios = await findStudiosWithMatchingServices({
