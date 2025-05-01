@@ -49,6 +49,7 @@ export function TattooStudioItem({
           </div>
           <div className="flex flex-col gap-1 px-2 py-3">
             <h3 className="truncate font-semibold">{studio.name}</h3>
+
             <p className="truncate text-sm text-gray-400">{studio.address}</p>
 
             {hasServices ? (

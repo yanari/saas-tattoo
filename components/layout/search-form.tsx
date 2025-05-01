@@ -37,7 +37,7 @@ export function SearchForm() {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>
-                <Input placeholder="Busque um estúdio" {...field} />
+                <Input placeholder="Busque um estúdio ou serviço" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
