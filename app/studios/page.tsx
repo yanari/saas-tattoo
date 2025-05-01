@@ -27,7 +27,7 @@ export default async function StudiosPage({ searchParams }: StudioPageProps) {
         <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">
           Resultados para &ldquo;{searchParams.search}&rdquo;:
         </h2>
-        <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
           {studios.map((studio) => (
             <TattooStudioItem key={studio.id} studio={studio} withServices />
           ))}
