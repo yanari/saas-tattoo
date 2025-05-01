@@ -3,7 +3,7 @@ import { ServiceItem } from '@/components/features/studios/service-item'
 import { Sidebar } from '@/components/layout/sidebar'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetTrigger } from '@/components/ui/sheet'
-import { db } from '@/lib/prisma'
+import { findStudioBySlug } from '@/lib/prisma/queries/studios'
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,14 +18,7 @@ export default async function StudioPage({ params }: StudioPageProps) {
 
   const decodedSlug = decodeURIComponent(slug)
 
-  const studio = await db.tattooStudio.findUnique({
-    where: {
-      slug: decodedSlug,
-    },
-    include: {
-      services: true,
-    },
-  })
+  const studio = await findStudioBySlug(decodedSlug)
 
   if (!studio) {
     return notFound()

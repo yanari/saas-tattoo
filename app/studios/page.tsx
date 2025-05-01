@@ -1,6 +1,7 @@
 import { TattooStudioItem } from '@/components/features/tattoo-studio-item'
 import { Header } from '@/components/layout/header'
-import { db } from '@/lib/prisma'
+import { SearchForm } from '@/components/layout/search-form'
+import { findStudiosWithMatchingServices } from '@/lib/prisma/queries/studios'
 
 interface StudioPageProps {
   searchParams: {
@@ -10,24 +11,25 @@ interface StudioPageProps {
 
 export default async function StudiosPage({ searchParams }: StudioPageProps) {
   const { search } = searchParams
-  const studios = await db.tattooStudio.findMany({
-    where: {
-      name: {
-        contains: search,
-        mode: 'insensitive',
-      },
-    },
+
+  const studios = await findStudiosWithMatchingServices({
+    search,
+    withServices: true,
   })
+
   return (
     <div>
       <Header />
+      <div className="mt-6">
+        <SearchForm />
+      </div>
       <div className="p-6">
         <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">
           Resultados para &ldquo;{searchParams.search}&rdquo;:
         </h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
           {studios.map((studio) => (
-            <TattooStudioItem key={studio.id} studio={studio} />
+            <TattooStudioItem key={studio.id} studio={studio} withServices />
           ))}
         </div>
       </div>
