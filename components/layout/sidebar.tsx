@@ -11,17 +11,9 @@ import {
 } from '../ui/sheet'
 import Link from 'next/link'
 import { Avatar, AvatarImage } from '../ui/avatar'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '../ui/dialog'
 
-import { LoginButton } from '../ui/login-button'
 import { signOut, useSession } from 'next-auth/react'
+import { LoginModalTrigger } from './login-modal-trigger'
 
 export function Sidebar() {
   const { data: session } = useSession()
@@ -51,25 +43,11 @@ export function Sidebar() {
           ) : (
             <>
               <h2 className="font-bold">Olá! Faça seu login</h2>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="icon">
-                    <LogInIcon />
-                  </Button>
-                </DialogTrigger>
-
-                <DialogContent className="w-11/12">
-                  <DialogHeader>
-                    <DialogTitle>Faça login na plataforma</DialogTitle>
-                    <DialogDescription>
-                      Conecte-se usando o Google
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <LoginButton provider="google" />
-                  {/* <LoginButton provider="instagram" /> */}
-                </DialogContent>
-              </Dialog>
+              <LoginModalTrigger>
+                <Button size="icon">
+                  <LogInIcon />
+                </Button>
+              </LoginModalTrigger>
             </>
           )}
         </div>

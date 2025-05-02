@@ -21,6 +21,7 @@ import { format } from 'date-fns'
 import { createBooking } from '@/lib/actions/create-booking'
 import { useSession } from 'next-auth/react'
 import { isDateUnavailable } from '@/utils/date'
+import { toast } from 'sonner'
 
 type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
   price: number
@@ -69,13 +70,20 @@ export function ServiceItem({ service, studio }: ServiceItemProps) {
   const handleCreateBooking = async () => {
     if (!selectedDay || !selectedDuration) return
     if (!data?.user) return
-    await createBooking({
-      serviceId: service.id,
-      startTime: selectedDuration.startTime!,
-      endTime: selectedDuration.endTime!,
-      userId: data?.user.email ?? '',
-      date: selectedDay,
-    })
+    try {
+      await createBooking({
+        serviceId: service.id,
+        startTime: selectedDuration.startTime!,
+        endTime: selectedDuration.endTime!,
+        userId: data?.user.email ?? '',
+        date: selectedDay,
+      })
+
+      toast.success('Reserva criada com sucesso.')
+    } catch (error) {
+      console.log(error)
+      toast.error('Não foi possível criar a reserva.')
+    }
   }
 
   return (
