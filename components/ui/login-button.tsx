@@ -9,7 +9,6 @@ const providers = {
     label: 'Google',
     icon: '/google.svg',
   },
-
   instagram: {
     label: 'Instagram',
     icon: '/instagram.svg',
@@ -24,14 +23,12 @@ interface LoginButtonProps {
 export function LoginButton({ provider, callbackUrl }: LoginButtonProps) {
   const { icon, label } = providers[provider]
 
-  const handleLogin = () => {
-    signIn(provider, {
-      callbackUrl: callbackUrl || '/',
-    })
-  }
-
   return (
-    <Button onClick={handleLogin} variant="outline" className="font-bold">
+    <Button
+      onClick={() => signIn(provider, { callbackUrl: callbackUrl || '/' })}
+      variant="outline"
+      className="font-bold"
+    >
       <Image
         className="text-white"
         alt={label}

@@ -6,17 +6,17 @@ import { useSearchParams, useRouter, useParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { createBooking } from '@/lib/actions/create-booking'
 import { Loader2 } from 'lucide-react'
+import { buildBookingParams } from '@/utils/booking'
 
 export default function StudiosBookingRedirectPage() {
   const { status, data: session } = useSession()
-  const params = useSearchParams()
   const { slug } = useParams() as { slug: string }
+  const params = useSearchParams()
   const router = useRouter()
   const hasRun = useRef(false)
 
   useEffect(() => {
-    if (hasRun.current) return
-    if (status !== 'authenticated') return
+    if (hasRun.current || status !== 'authenticated') return
 
     const serviceId = params.get('serviceId')
     const date = params.get('date')
@@ -36,9 +36,17 @@ export default function StudiosBookingRedirectPage() {
       })
         .then(() => {
           toast.success('Reserva criada com sucesso.')
-          router.push(
-            `/studios/${slug}/booking/confirmation?${params.toString()}`,
-          )
+          const query = buildBookingParams({
+            serviceId,
+            serviceName: params.get('serviceName') ?? '',
+            servicePrice: Number(params.get('servicePrice') ?? 0),
+            studioName: params.get('studioName') ?? '',
+            date: new Date(date),
+            startTime: new Date(startTime),
+            endTime: new Date(endTime),
+          })
+
+          router.push(`/studios/${slug}/booking/confirmation?${query}`)
         })
         .catch(() => {
           toast.error('Erro ao criar a reserva.')

@@ -8,10 +8,9 @@ import {
   DialogDescription,
   DialogHeader,
 } from '../ui/dialog'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { useSession } from 'next-auth/react'
 import { LoginButton } from '../ui/login-button'
-import { type ReactNode } from 'react'
 
 export type LoginModalTriggerProps = {
   children: ReactNode

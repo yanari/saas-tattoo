@@ -24,6 +24,12 @@ import { isDateUnavailable } from '@/utils/date'
 import { toast } from 'sonner'
 import { LoginModalTrigger } from '@/components/layout/login-modal-trigger'
 import { useRouter } from 'next/navigation'
+import {
+  DurationTime,
+  getBookingCallbackUrl,
+  isBookingIncomplete,
+} from '@/utils/booking'
+import { parseAvailability } from '@/utils/availability'
 
 type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
   price: number
@@ -32,11 +38,6 @@ type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
 interface ServiceItemProps {
   service: TattooStudioServiceWithPrice
   studio: Pick<TattooStudio, 'name' | 'slug'>
-}
-
-interface DurationTime {
-  startTime: Date
-  endTime: Date
 }
 
 export function ServiceItem({ service, studio }: ServiceItemProps) {
@@ -53,12 +54,9 @@ export function ServiceItem({ service, studio }: ServiceItemProps) {
     setSelectedDuration({ startTime, endTime })
   }
 
-  const isDisabled = !selectedDay || !selectedDuration
+  const isDisabled = isBookingIncomplete(selectedDay, selectedDuration)
 
-  const availability = service.availability as Record<
-    string,
-    { startTime: string; endTime: string }[]
-  >
+  const availability = parseAvailability(service.availability)
 
   const disabledDays = React.useMemo(() => {
     return isDateUnavailable(availability)
@@ -70,17 +68,16 @@ export function ServiceItem({ service, studio }: ServiceItemProps) {
 
   const slotsForSelectedDay = selectedKey ? availability[selectedKey] || [] : []
 
-  const queryParams = new URLSearchParams({
+  const callbackUrl = getBookingCallbackUrl({
     serviceId: service.id,
     serviceName: service.name,
-    servicePrice: service.price.toString(),
+    servicePrice: service.price,
+    studioSlug: studio.slug,
     studioName: studio.name,
-    date: selectedDay?.toISOString() ?? '',
-    startTime: selectedDuration?.startTime?.toISOString() ?? '',
-    endTime: selectedDuration?.endTime?.toISOString() ?? '',
+    date: selectedDay,
+    startTime: selectedDuration?.startTime,
+    endTime: selectedDuration?.endTime,
   })
-
-  const callbackUrl = `/studios/${studio.slug}/booking/redirect?${queryParams.toString()}`
 
   const handleCreateBooking = async () => {
     if (!selectedDay || !selectedDuration) return

@@ -10,11 +10,11 @@ import { ptBR } from 'date-fns/locale'
 export default function StudiosBookingConfirmationPage() {
   const params = useSearchParams()
 
-  const serviceName = params.get('serviceName')
-  const servicePrice = params.get('servicePrice')
+  const serviceName = params.get('serviceName') ?? ''
+  const servicePrice = params.get('servicePrice') ?? ''
   const date = params.get('date')
   const startTime = params.get('startTime')
-  const studioName = params.get('studioName')
+  const studioName = params.get('studioName') ?? ''
 
   return (
     <div className="flex min-h-[85vh] flex-col items-center justify-center px-4 text-center">
@@ -37,23 +37,23 @@ export default function StudiosBookingConfirmationPage() {
             </p>
           </div>
 
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm text-gray-400">Data</h2>
-            <p className="text-sm">
-              {format(date!, "d 'de' MMMM", {
-                locale: ptBR,
-              })}
-            </p>
-          </div>
+          {date && (
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm text-gray-400">Data</h2>
+              <p className="text-sm">
+                {format(new Date(date), "d 'de' MMMM", { locale: ptBR })}
+              </p>
+            </div>
+          )}
 
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm text-gray-400">Horário</h2>
-            <p className="text-sm">
-              {format(startTime!, 'HH:mm', {
-                locale: ptBR,
-              })}
-            </p>
-          </div>
+          {startTime && (
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm text-gray-400">Horário</h2>
+              <p className="text-sm">
+                {format(new Date(startTime), 'HH:mm', { locale: ptBR })}
+              </p>
+            </div>
+          )}
 
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-gray-400">Estúdio</h2>
