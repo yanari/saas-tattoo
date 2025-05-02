@@ -4,7 +4,6 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { Card, CardContent } from '@/components/ui/card'
 import {
   SheetFooter,
   SheetDescription,
@@ -13,6 +12,7 @@ import {
 import { LoginModalTrigger } from '@/components/layout/login-modal-trigger'
 import { useBooking } from '@/hooks/useBooking'
 import { TattooStudio, TattooStudioService } from '@prisma/client'
+import { ConfirmationCard } from './confirmation-card'
 
 interface BookingFormProps {
   service: Omit<TattooStudioService, 'price'> & { price: number }
@@ -76,26 +76,16 @@ export function BookingForm({ service, studio }: BookingFormProps) {
         </div>
       )}
 
-      {selectedDuration && (
+      {selectedDuration && selectedDay && (
         <div className="px-4">
-          <Card className="p-3">
-            <CardContent className="grid gap-2 p-1">
-              <BookingDetail
-                label="Serviço"
-                value={service.name}
-                price={service.price}
-              />
-              <BookingDetail
-                label="Data"
-                value={format(selectedDay!, "d 'de' MMMM", { locale: ptBR })}
-              />
-              <BookingDetail
-                label="Horário"
-                value={format(selectedDuration.startTime, 'HH:mm')}
-              />
-              <BookingDetail label="Estúdio" value={studio.name} />
-            </CardContent>
-          </Card>
+          <ConfirmationCard
+            className="p-3"
+            serviceName={service.name}
+            servicePrice={service.price.toString()}
+            dateInISOString={selectedDay.toISOString()}
+            startTimeInISOString={selectedDuration.startTime.toISOString()}
+            studioName={studio.name}
+          />
         </div>
       )}
 
@@ -119,29 +109,5 @@ export function BookingForm({ service, studio }: BookingFormProps) {
         )}
       </SheetFooter>
     </>
-  )
-}
-
-function BookingDetail({
-  label,
-  value,
-  price,
-}: {
-  label: string
-  value?: string
-  price?: number
-}) {
-  return (
-    <div className="flex items-center justify-between">
-      <h2 className="text-muted-foreground text-sm">{label}</h2>
-      <p className="text-sm font-bold">
-        {price != null
-          ? Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            }).format(price)
-          : value}
-      </p>
-    </div>
   )
 }

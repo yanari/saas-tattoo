@@ -1,24 +1,27 @@
 import { format } from 'date-fns'
 import { Card, CardContent } from '../ui/card'
 import { ptBR } from 'date-fns/locale'
+import { cn } from '@/lib/utils'
 
 interface ConfirmationCardProps {
+  className?: string
   serviceName: string
   servicePrice: string
-  date: string | null
-  startTime: string | null
+  dateInISOString: string | null
+  startTimeInISOString: string | null
   studioName: string
 }
 
 export function ConfirmationCard({
+  className,
   serviceName,
   servicePrice,
-  date,
-  startTime,
+  dateInISOString,
+  startTimeInISOString,
   studioName,
 }: ConfirmationCardProps) {
   return (
-    <Card className="mb-8 w-full px-5">
+    <Card className={cn(className)}>
       <CardContent className="grid gap-2 p-0">
         <div className="flex items-center justify-between">
           <h2 className="truncate text-sm font-bold">{serviceName}</h2>
@@ -30,20 +33,24 @@ export function ConfirmationCard({
           </p>
         </div>
 
-        {date && (
+        {dateInISOString && (
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-gray-400">Data</h2>
             <p className="text-sm">
-              {format(new Date(date), "d 'de' MMMM", { locale: ptBR })}
+              {format(new Date(dateInISOString), "d 'de' MMMM", {
+                locale: ptBR,
+              })}
             </p>
           </div>
         )}
 
-        {startTime && (
+        {startTimeInISOString && (
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-gray-400">Horário</h2>
             <p className="text-sm">
-              {format(new Date(startTime), 'HH:mm', { locale: ptBR })}
+              {format(new Date(startTimeInISOString), 'HH:mm', {
+                locale: ptBR,
+              })}
             </p>
           </div>
         )}

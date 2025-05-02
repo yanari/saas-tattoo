@@ -25,10 +25,11 @@ export default function StudiosBookingConfirmationPage() {
       </p>
 
       <ConfirmationCard
+        className="mb-8 w-full px-5 sm:w-xl"
         serviceName={serviceName}
         servicePrice={servicePrice}
-        date={date}
-        startTime={startTime}
+        dateInISOString={date}
+        startTimeInISOString={startTime}
         studioName={studioName}
       />
 
@@ -36,7 +37,7 @@ export default function StudiosBookingConfirmationPage() {
         href="/"
         className="bg-primary hover:bg-primary/90 inline-block rounded-lg px-6 py-2 text-white transition-colors"
       >
-        Back to Home
+        Voltar para o início
       </Link>
     </div>
   )
