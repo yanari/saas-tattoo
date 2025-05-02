@@ -11,6 +11,7 @@ import {
 } from '@/utils/booking'
 import { parseAvailability } from '@/utils/availability'
 import { TattooStudio, TattooStudioService } from '@prisma/client'
+import { isDateUnavailable } from '@/utils/date'
 
 interface UseBookingParams {
   service: Omit<TattooStudioService, 'price'> & { price: number }
@@ -27,7 +28,7 @@ export function useBooking({ service, studio }: UseBookingParams) {
   const availability = parseAvailability(service.availability)
 
   const disabledDays = useMemo(() => {
-    return Object.keys(availability).map((date) => new Date(date))
+    return isDateUnavailable(availability)
   }, [availability])
 
   const selectedKey = selectedDay?.toISOString().split('T')[0] ?? ''
