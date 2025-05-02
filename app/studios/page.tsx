@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 
-import { TattooStudioItem } from '@/components/features/tattoo-studio-item'
+import { TattooStudioItem } from '@/components/studios/tattoo-studio-item'
 import { Header } from '@/components/layout/header'
 import { SearchForm } from '@/components/layout/search-form'
 import { findStudiosWithMatchingServices } from '@/lib/prisma/queries/studios'

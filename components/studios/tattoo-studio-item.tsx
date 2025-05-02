@@ -1,10 +1,10 @@
 import { Prisma } from '@prisma/client'
-import { Card, CardContent } from '../../ui/card'
+import { Card, CardContent } from '../ui/card'
 import Image from 'next/image'
-import { Badge } from '../../ui/badge'
+import { Badge } from '../ui/badge'
 import { StarIcon } from 'lucide-react'
 import Link from 'next/link'
-import { ServiceListing } from './service-listing'
+import { StudioServicePreview } from './studio-service-preview'
 
 type TattooStudioWithServices = Prisma.TattooStudioGetPayload<{
   include: { services: true }
@@ -52,7 +52,10 @@ export function TattooStudioItem({
             <p className="truncate text-xs text-gray-400">{studio.address}</p>
 
             {hasServices ? (
-              <ServiceListing className="mt-2" services={studio.services} />
+              <StudioServicePreview
+                className="mt-2"
+                services={studio.services}
+              />
             ) : (
               <span className="text-primary truncate text-sm font-semibold">
                 {studio.city}

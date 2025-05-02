@@ -1,7 +1,7 @@
-import { BookingItem } from '@/components/features/booking-item'
-import { TattooStudioItem } from '@/components/features/tattoo-studio-item'
+import { UpcomingBookingCard } from '@/components/booking/upcoming-booking-card'
 import { Header } from '@/components/layout/header'
 import { SearchForm } from '@/components/layout/search-form'
+import { TattooStudioItem } from '@/components/studios/tattoo-studio-item'
 import { Welcome } from '@/components/ui/welcome'
 import { db } from '@/lib/prisma/client'
 import { formatDate } from '@/utils/date'
@@ -29,7 +29,7 @@ export default async function Home() {
           <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">
             Agendamentos
           </h2>
-          <BookingItem />
+          <UpcomingBookingCard />
         </section>
 
         <section>

@@ -1,5 +1,5 @@
-import { PhoneItem } from '@/components/features/studios/phone-item'
-import { ServiceItem } from '@/components/features/studios/service-item'
+import { PhoneItem } from '@/components/studios/phone-item'
+import { ServiceItem } from '@/components/studios/service-item'
 import { Sidebar } from '@/components/layout/sidebar'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetTrigger } from '@/components/ui/sheet'

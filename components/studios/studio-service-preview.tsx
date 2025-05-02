@@ -5,12 +5,15 @@ type TattooStudioWithServices = Prisma.TattooStudioGetPayload<{
   include: { services: true }
 }>
 
-interface ServiceListingProps {
+interface StudioServicePreviewProps {
   services: TattooStudioWithServices['services']
   className?: string
 }
 
-export function ServiceListing({ className, services }: ServiceListingProps) {
+export function StudioServicePreview({
+  className,
+  services,
+}: StudioServicePreviewProps) {
   if (!services || services.length === 0) return null
   return (
     <div className={cn(className, 'flex w-full flex-wrap gap-2')}>
