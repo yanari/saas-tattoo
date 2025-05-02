@@ -8,6 +8,7 @@ import { createBooking } from '@/lib/actions/create-booking'
 import { Loader2 } from 'lucide-react'
 import { buildBookingParams } from '@/utils/booking'
 
+// TODO: pass only serviceId and run query on where its passed to instead of passing as params
 export default function StudiosBookingRedirectPage() {
   const { status, data: session } = useSession()
   const { slug } = useParams() as { slug: string }

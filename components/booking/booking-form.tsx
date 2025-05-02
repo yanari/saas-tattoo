@@ -5,7 +5,11 @@ import { ptBR } from 'date-fns/locale'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent } from '@/components/ui/card'
-import { SheetFooter, SheetDescription } from '@/components/ui/sheet'
+import {
+  SheetFooter,
+  SheetDescription,
+  SheetClose,
+} from '@/components/ui/sheet'
 import { LoginModalTrigger } from '@/components/layout/login-modal-trigger'
 import { useBooking } from '@/hooks/useBooking'
 import { TattooStudio, TattooStudioService } from '@prisma/client'
@@ -26,6 +30,7 @@ export function BookingForm({ service, studio }: BookingFormProps) {
     isDisabled,
     handleCreateBooking,
     callbackUrl,
+    isUserLoggedIn,
   } = useBooking({ service, studio })
 
   return (
@@ -95,20 +100,22 @@ export function BookingForm({ service, studio }: BookingFormProps) {
       )}
 
       <SheetFooter>
-        {callbackUrl ? (
+        {isUserLoggedIn ? (
+          <SheetClose asChild>
+            <Button
+              disabled={isDisabled}
+              onClick={handleCreateBooking}
+              className="w-full"
+            >
+              Confirmar
+            </Button>
+          </SheetClose>
+        ) : (
           <LoginModalTrigger autoCloseOnLogin callbackUrl={callbackUrl}>
             <Button disabled={isDisabled} className="w-full">
               Confirmar
             </Button>
           </LoginModalTrigger>
-        ) : (
-          <Button
-            disabled={isDisabled}
-            onClick={handleCreateBooking}
-            className="w-full"
-          >
-            Confirmar
-          </Button>
         )}
       </SheetFooter>
     </>

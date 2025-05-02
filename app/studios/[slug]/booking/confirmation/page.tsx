@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useSearchParams } from 'next/navigation'
 import { ptBR } from 'date-fns/locale'
 
+// TODO: query booking by id instead of receiving params
 export default function StudiosBookingConfirmationPage() {
   const params = useSearchParams()
 

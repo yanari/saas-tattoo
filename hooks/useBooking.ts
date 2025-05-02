@@ -18,6 +18,7 @@ interface UseBookingParams {
   studio: Pick<TattooStudio, 'name' | 'slug'>
 }
 
+// TODO: hide date in calendar when slot is already booked
 export function useBooking({ service, studio }: UseBookingParams) {
   const { data: session } = useSession()
   const router = useRouter()
@@ -35,6 +36,8 @@ export function useBooking({ service, studio }: UseBookingParams) {
   const slotsForSelectedDay = availability[selectedKey] || []
 
   const isDisabled = isBookingIncomplete(selectedDay, selectedDuration)
+
+  const isUserLoggedIn = Boolean(session?.user?.id)
 
   const callbackUrl = getBookingCallbackUrl({
     serviceId: service.id,
@@ -60,7 +63,6 @@ export function useBooking({ service, studio }: UseBookingParams) {
       })
 
       router.push(callbackUrl)
-      toast.success('Reserva criada com sucesso.')
     } catch (error) {
       toast.error('Não foi possível criar a reserva.')
       console.error(error)
@@ -77,5 +79,6 @@ export function useBooking({ service, studio }: UseBookingParams) {
     isDisabled,
     handleCreateBooking,
     callbackUrl,
+    isUserLoggedIn,
   }
 }
