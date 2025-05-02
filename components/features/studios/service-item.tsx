@@ -1,6 +1,6 @@
 'use client'
 
-import { TattooStudioService } from '@prisma/client'
+import { TattooStudio, TattooStudioService } from '@prisma/client'
 import React, { useState } from 'react'
 import { Card, CardContent } from '../../ui/card'
 import Image from 'next/image'
@@ -22,6 +22,8 @@ import { createBooking } from '@/lib/actions/create-booking'
 import { useSession } from 'next-auth/react'
 import { isDateUnavailable } from '@/utils/date'
 import { toast } from 'sonner'
+import { LoginModalTrigger } from '@/components/layout/login-modal-trigger'
+import { useRouter } from 'next/navigation'
 
 type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
   price: number
@@ -29,7 +31,7 @@ type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
 
 interface ServiceItemProps {
   service: TattooStudioServiceWithPrice
-  studio: Partial<TattooStudioService>
+  studio: Pick<TattooStudio, 'name' | 'slug'>
 }
 
 interface DurationTime {
@@ -38,7 +40,8 @@ interface DurationTime {
 }
 
 export function ServiceItem({ service, studio }: ServiceItemProps) {
-  const { data } = useSession()
+  const { data: session } = useSession()
+  const router = useRouter()
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
   const [selectedDuration, setSelectedDuration] = useState<
     DurationTime | undefined
@@ -50,7 +53,7 @@ export function ServiceItem({ service, studio }: ServiceItemProps) {
     setSelectedDuration({ startTime, endTime })
   }
 
-  const isDisabled = !selectedDay || !selectedDuration || !data?.user
+  const isDisabled = !selectedDay || !selectedDuration
 
   const availability = service.availability as Record<
     string,
@@ -67,18 +70,30 @@ export function ServiceItem({ service, studio }: ServiceItemProps) {
 
   const slotsForSelectedDay = selectedKey ? availability[selectedKey] || [] : []
 
+  const queryParams = new URLSearchParams({
+    serviceId: service.id,
+    serviceName: service.name,
+    servicePrice: service.price.toString(),
+    studioName: studio.name,
+    date: selectedDay?.toISOString() ?? '',
+    startTime: selectedDuration?.startTime?.toISOString() ?? '',
+    endTime: selectedDuration?.endTime?.toISOString() ?? '',
+  })
+
+  const callbackUrl = `/studios/${studio.slug}/booking/redirect?${queryParams.toString()}`
+
   const handleCreateBooking = async () => {
     if (!selectedDay || !selectedDuration) return
-    if (!data?.user) return
+    if (!session?.user) return
     try {
       await createBooking({
         serviceId: service.id,
         startTime: selectedDuration.startTime!,
         endTime: selectedDuration.endTime!,
-        userId: data?.user.email ?? '',
+        userId: session?.user.id,
         date: selectedDay,
       })
-
+      router.push(callbackUrl)
       toast.success('Reserva criada com sucesso.')
     } catch (error) {
       console.log(error)
@@ -201,15 +216,26 @@ export function ServiceItem({ service, studio }: ServiceItemProps) {
                 )}
 
                 <SheetFooter>
-                  <SheetClose asChild>
-                    <Button
-                      disabled={isDisabled}
-                      onClick={handleCreateBooking}
-                      className="w-full"
+                  {session?.user ? (
+                    <SheetClose asChild>
+                      <Button
+                        disabled={isDisabled}
+                        onClick={handleCreateBooking}
+                        className="w-full"
+                      >
+                        Confirmar
+                      </Button>
+                    </SheetClose>
+                  ) : (
+                    <LoginModalTrigger
+                      autoCloseOnLogin
+                      callbackUrl={callbackUrl}
                     >
-                      Confirmar
-                    </Button>
-                  </SheetClose>
+                      <Button disabled={isDisabled} className="w-full">
+                        Confirmar
+                      </Button>
+                    </LoginModalTrigger>
+                  )}
                 </SheetFooter>
               </SheetContent>
             </Sheet>

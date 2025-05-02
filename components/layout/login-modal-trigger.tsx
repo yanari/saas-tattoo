@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Dialog,
   DialogTrigger,
@@ -6,25 +8,44 @@ import {
   DialogDescription,
   DialogHeader,
 } from '../ui/dialog'
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { LoginButton } from '../ui/login-button'
 import { type ReactNode } from 'react'
 
 export type LoginModalTriggerProps = {
   children: ReactNode
+  callbackUrl?: string
+  autoCloseOnLogin?: boolean
 }
 
-export function LoginModalTrigger({ children }: LoginModalTriggerProps) {
+export function LoginModalTrigger({
+  children,
+  callbackUrl,
+  autoCloseOnLogin = false,
+}: LoginModalTriggerProps) {
+  const [open, setOpen] = useState(false)
+  const { status } = useSession()
+
+  useEffect(() => {
+    if (autoCloseOnLogin && status === 'authenticated') {
+      setOpen(false)
+    }
+  }, [status, autoCloseOnLogin])
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent className="w-11/12">
         <DialogHeader>
-          <DialogTitle>Faça login na plataforma</DialogTitle>
-          <DialogDescription>Conecte-se usando o Google</DialogDescription>
+          <DialogTitle>Sign in to continue</DialogTitle>
+          <DialogDescription>
+            You can use your Google account.
+          </DialogDescription>
         </DialogHeader>
 
-        <LoginButton provider="google" />
+        <LoginButton provider="google" callbackUrl={callbackUrl} />
       </DialogContent>
     </Dialog>
   )

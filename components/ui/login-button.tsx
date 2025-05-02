@@ -18,12 +18,17 @@ const providers = {
 
 interface LoginButtonProps {
   provider: 'google' | 'instagram'
+  callbackUrl?: string
 }
 
-export function LoginButton({ provider }: LoginButtonProps) {
+export function LoginButton({ provider, callbackUrl }: LoginButtonProps) {
   const { icon, label } = providers[provider]
 
-  const handleLogin = () => signIn(provider)
+  const handleLogin = () => {
+    signIn(provider, {
+      callbackUrl: callbackUrl || '/',
+    })
+  }
 
   return (
     <Button onClick={handleLogin} variant="outline" className="font-bold">
