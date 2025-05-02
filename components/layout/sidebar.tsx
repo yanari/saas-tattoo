@@ -18,6 +18,8 @@ import { LoginModalTrigger } from './login-modal-trigger'
 export function Sidebar() {
   const { data: session } = useSession()
 
+  const isSignedIn = !!session
+
   const logOut = () => signOut()
 
   return (
@@ -78,16 +80,18 @@ export function Sidebar() {
         </ul>
       </div>
 
-      <div className="grid p-6">
-        <Button
-          onClick={logOut}
-          variant="ghost"
-          className="flex w-full justify-start"
-        >
-          <LogOutIcon />
-          Sair da conta
-        </Button>
-      </div>
+      {isSignedIn && (
+        <div className="grid p-6">
+          <Button
+            onClick={logOut}
+            variant="ghost"
+            className="flex w-full justify-start"
+          >
+            <LogOutIcon />
+            Sair da conta
+          </Button>
+        </div>
+      )}
     </SheetContent>
   )
 }
