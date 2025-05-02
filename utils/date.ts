@@ -7,13 +7,18 @@ export function formatDate() {
   }).format(new Date())
 }
 
-export function isDateUnavailable(
-  availability: Record<string, { startTime: string; endTime: string }[]>,
-) {
-  const availableDates = new Set(Object.keys(availability))
+interface DateAvailability {
+  startTime: string
+  endTime: string
+  isAvailable: boolean
+}
 
+export function isDateUnavailable(
+  availability: Record<string, DateAvailability[]>,
+) {
   return (date: Date) => {
     const key = date.toISOString().split('T')[0]
-    return !availableDates.has(key)
+    const slots = availability[key]
+    return !slots || slots.some((slot) => slot.isAvailable)
   }
 }

@@ -1,4 +1,4 @@
-export type Slot = { startTime: string; endTime: string }
+export type Slot = { startTime: string; endTime: string; isAvailable: boolean }
 export type RawAvailability = Record<string, Slot[]> | null | undefined
 
 export function parseAvailability(
