@@ -215,6 +215,90 @@ async function seedDatabase() {
         'Dotwork',
       ]
 
+      const availabilityVariations = [
+        {
+          '2025-05-02': [
+            { startTime: '10:00', endTime: '11:30' },
+            { startTime: '15:30', endTime: '16:30' },
+          ],
+          '2025-05-03': [
+            { startTime: '09:00', endTime: '10:00' },
+            { startTime: '14:00', endTime: '15:00' },
+          ],
+          '2025-05-06': [
+            { startTime: '10:00', endTime: '11:00' },
+            { startTime: '13:00', endTime: '14:30' },
+            { startTime: '17:00', endTime: '18:00' },
+          ],
+          '2025-05-08': [
+            { startTime: '08:00', endTime: '09:00' },
+            { startTime: '10:30', endTime: '11:30' },
+            { startTime: '15:00', endTime: '16:00' },
+          ],
+        },
+        {
+          '2025-05-02': [
+            { startTime: '10:00', endTime: '11:30' },
+            { startTime: '15:30', endTime: '16:30' },
+          ],
+          '2025-05-03': [
+            { startTime: '09:00', endTime: '10:00' },
+            { startTime: '11:00', endTime: '12:00' },
+            { startTime: '14:00', endTime: '15:00' },
+            { startTime: '17:00', endTime: '18:00' },
+          ],
+          '2025-05-06': [
+            { startTime: '10:00', endTime: '11:00' },
+            { startTime: '13:00', endTime: '14:30' },
+          ],
+          '2025-05-08': [
+            { startTime: '08:00', endTime: '09:00' },
+            { startTime: '10:30', endTime: '11:30' },
+            { startTime: '15:00', endTime: '16:00' },
+            { startTime: '17:00', endTime: '18:00' },
+          ],
+        },
+        {
+          '2025-05-02': [
+            { startTime: '10:00', endTime: '11:30' },
+            { startTime: '13:00', endTime: '14:00' },
+            { startTime: '15:30', endTime: '16:30' },
+            { startTime: '17:00', endTime: '18:00' },
+          ],
+          '2025-05-03': [
+            { startTime: '09:00', endTime: '10:00' },
+            { startTime: '11:00', endTime: '12:00' },
+            { startTime: '14:00', endTime: '15:00' },
+          ],
+          '2025-05-06': [
+            { startTime: '10:00', endTime: '11:00' },
+            { startTime: '13:00', endTime: '14:30' },
+            { startTime: '17:00', endTime: '18:00' },
+          ],
+          '2025-05-08': [
+            { startTime: '08:00', endTime: '09:00' },
+            { startTime: '10:30', endTime: '11:30' },
+            { startTime: '15:00', endTime: '16:00' },
+          ],
+        },
+        {
+          '2025-05-03': [
+            { startTime: '11:00', endTime: '12:00' },
+            { startTime: '14:00', endTime: '15:00' },
+          ],
+          '2025-05-06': [],
+          '2025-05-08': [
+            { startTime: '10:30', endTime: '11:30' },
+            { startTime: '15:00', endTime: '16:00' },
+          ],
+        },
+        {
+          '2025-05-02': [],
+          '2025-05-03': [],
+          '2025-05-06': [{ startTime: '10:00', endTime: '11:00' }],
+        },
+      ]
+
       const tattooStudio = await prisma.tattooStudio.create({
         data: {
           name,
@@ -254,13 +338,10 @@ async function seedDatabase() {
               },
             },
             imageUrl: service.imageUrl,
-            availabilitySlots: {
-              create: service.availabilitySlots.map((slot) => ({
-                dayOfWeek: slot.dayOfWeek,
-                startTime: slot.startTime,
-                endTime: slot.endTime,
-              })),
-            },
+            availability:
+              availabilityVariations[
+                Math.floor(Math.random() * availabilityVariations.length)
+              ],
           },
         })
       }

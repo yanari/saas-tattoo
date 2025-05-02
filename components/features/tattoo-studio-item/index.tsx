@@ -54,7 +54,7 @@ export function TattooStudioItem({
             {hasServices ? (
               <ServiceListing className="mt-2" services={studio.services} />
             ) : (
-              <span className="truncate text-sm font-bold text-gray-400">
+              <span className="text-primary truncate text-sm font-semibold">
                 {studio.city}
               </span>
             )}

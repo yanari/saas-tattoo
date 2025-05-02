@@ -1,32 +1,82 @@
 'use client'
 
 import { TattooStudioService } from '@prisma/client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent } from '../../ui/card'
 import Image from 'next/image'
 import { Button } from '../../ui/button'
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Calendar } from '@/components/ui/calendar'
 import { ptBR } from 'date-fns/locale'
+import { format } from 'date-fns'
+import { createBooking } from '@/lib/actions/create-booking'
+import { useSession } from 'next-auth/react'
+import { isDateUnavailable } from '@/utils/date'
 
-interface ServiceItemProps {
-  service: TattooStudioService
+type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
+  price: number
 }
 
-// TODO: remover a classe .dark\:hover\:bg-accent\/50:hover { background-color: color-mix(in oklab, var(--accent) 50%, transparent);
-export function ServiceItem({ service }: ServiceItemProps) {
-  const [selectedDay, setSelectedDay] = React.useState<Date | undefined>(
-    undefined,
-  )
+interface ServiceItemProps {
+  service: TattooStudioServiceWithPrice
+  studio: Partial<TattooStudioService>
+}
+
+interface DurationTime {
+  startTime: Date
+  endTime: Date
+}
+
+export function ServiceItem({ service, studio }: ServiceItemProps) {
+  const { data } = useSession()
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
+  const [selectedDuration, setSelectedDuration] = useState<
+    DurationTime | undefined
+  >(undefined)
 
   const handleDateSelect = (date: Date | undefined) => setSelectedDay(date)
+
+  const handleTimeSelect = (startTime: Date, endTime: Date) => {
+    setSelectedDuration({ startTime, endTime })
+  }
+
+  const isDisabled = !selectedDay || !selectedDuration || !data?.user
+
+  const availability = service.availability as Record<
+    string,
+    { startTime: string; endTime: string }[]
+  >
+
+  const disabledDays = React.useMemo(() => {
+    return isDateUnavailable(availability)
+  }, [availability])
+
+  const selectedKey = selectedDay
+    ? selectedDay.toISOString().split('T')[0]
+    : null
+
+  const slotsForSelectedDay = selectedKey ? availability[selectedKey] || [] : []
+
+  const handleCreateBooking = async () => {
+    if (!selectedDay || !selectedDuration) return
+    if (!data?.user) return
+    await createBooking({
+      serviceId: service.id,
+      startTime: selectedDuration.startTime!,
+      endTime: selectedDuration.endTime!,
+      userId: data?.user.email ?? '',
+      date: selectedDay,
+    })
+  }
 
   return (
     <Card className="p-0">
@@ -60,45 +110,99 @@ export function ServiceItem({ service }: ServiceItemProps) {
                   <SheetTitle>Reserve um horário</SheetTitle>
                 </SheetHeader>
 
-                <SheetDescription className="text-center">
-                  Agendar:
-                  <br />
-                  <span className="text-base font-bold">
+                <SheetDescription className="flex justify-between px-3">
+                  Agendamento:
+                  <span className="text-primary font-bold">
                     &ldquo;{service.name}&rdquo;
                   </span>
                 </SheetDescription>
 
-                <div className="border-b border-solid py-4">
+                <div className="border-b border-solid pb-6">
                   <Calendar
                     mode="single"
+                    disabled={disabledDays}
                     locale={ptBR}
                     selected={selectedDay}
                     onSelect={handleDateSelect}
-                    styles={{
-                      head_cell: {
-                        width: '100%',
-                      },
-                      cell: {
-                        width: '100%',
-                      },
-                      nav_button_next: {
-                        width: '32px',
-                        height: '32px',
-                      },
-                      nav_button_previous: {
-                        width: '32px',
-                        height: '32px',
-                      },
-                      caption: {
-                        textTransform: 'capitalize',
-                      },
-                      button: {
-                        width: '100%',
-                      },
-                    }}
                   />
                 </div>
-                <div></div>
+                {selectedDay && (
+                  <div className="flex gap-2 overflow-x-auto border-b border-solid pb-4 pl-4 [&::-webkit-scrollbar]:hidden">
+                    {slotsForSelectedDay.map((slot, index) => {
+                      const start = new Date(`1970-01-01T${slot.startTime}:00Z`)
+                      const end = new Date(`1970-01-01T${slot.endTime}:00Z`)
+                      const isSelected =
+                        selectedDuration?.startTime?.getTime() ===
+                        start.getTime()
+
+                      return (
+                        <Button
+                          className="px-4"
+                          key={index}
+                          variant={isSelected ? 'default' : 'outline'}
+                          onClick={() => handleTimeSelect(start, end)}
+                        >
+                          {format(start, 'HH:mm')} - {format(end, 'HH:mm')}
+                        </Button>
+                      )
+                    })}
+                  </div>
+                )}
+
+                {selectedDuration && (
+                  <div className="px-4">
+                    <Card className="p-3">
+                      <CardContent className="grid gap-2 p-1">
+                        <div className="flex items-center justify-between">
+                          <h2 className="w-8/12 truncate text-sm font-bold">
+                            {service.name}
+                          </h2>
+                          <p className="text-sm font-bold">
+                            {Intl.NumberFormat('pt-BR', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            }).format(Number(service.price))}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <h2 className="text-sm text-gray-400">Data</h2>
+                          <p className="text-sm">
+                            {format(selectedDay!, "d 'de' MMMM", {
+                              locale: ptBR,
+                            })}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <h2 className="text-sm text-gray-400">Horário</h2>
+                          <p className="text-sm">
+                            {format(selectedDuration.startTime, 'HH:mm', {
+                              locale: ptBR,
+                            })}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <h2 className="text-sm text-gray-400">Estúdio</h2>
+                          <p className="text-sm">{studio.name}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                <SheetFooter>
+                  <SheetClose asChild>
+                    <Button
+                      disabled={isDisabled}
+                      onClick={handleCreateBooking}
+                      className="w-full"
+                    >
+                      Confirmar
+                    </Button>
+                  </SheetClose>
+                </SheetFooter>
               </SheetContent>
             </Sheet>
           </div>

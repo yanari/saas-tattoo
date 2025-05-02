@@ -28,10 +28,11 @@ export default async function StudioPage({ params }: StudioPageProps) {
     <div>
       <div className="relative h-64 w-full">
         <Image
-          src={studio.imageUrl}
-          fill
+          src={studio.imageUrl ?? ''}
           className="object-cover"
           alt={studio.name}
+          fill
+          priority
         />
 
         <Button
@@ -86,10 +87,10 @@ export default async function StudioPage({ params }: StudioPageProps) {
       <div className="space-y-3 border-b border-solid p-5">
         <h2 className="text-sm font-bold text-gray-400 uppercase">Serviços</h2>
 
-        <ul className="grid gap-4 xl:grid-cols-4">
+        <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {studio.services.map((service) => (
             <li key={service.id}>
-              <ServiceItem service={service} />
+              <ServiceItem service={service} studio={studio} />
             </li>
           ))}
         </ul>

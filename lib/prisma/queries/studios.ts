@@ -34,7 +34,7 @@ export async function findStudiosWithMatchingServices({
 }
 
 export async function findStudioBySlug(slug: string) {
-  return await db.tattooStudio.findUnique({
+  const studio = await db.tattooStudio.findUnique({
     where: {
       slug,
     },
@@ -42,4 +42,14 @@ export async function findStudioBySlug(slug: string) {
       services: true,
     },
   })
+
+  if (!studio) return null
+
+  return {
+    ...studio,
+    services: studio.services.map((service) => ({
+      ...service,
+      price: service.price.toNumber(),
+    })),
+  }
 }
