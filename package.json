@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:watch": "chokidar 'src/**/*.{js,jsx,ts,tsx,css,html,vue,json}' --ignore 'node_modules/**' --ignore '.next/**' --ignore 'dist/**' --ignore 'build/**' --ignore '.git/**' -c 'npm run format'"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -56,6 +58,7 @@
     "@types/node": "^20.17.31",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "chokidar-cli": "^3.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "git-commit-msg-linter": "^5.0.8",
