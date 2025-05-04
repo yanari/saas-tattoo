@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/header'
 import { SearchForm } from '@/components/layout/search-form'
 import { TattooStudioItem } from '@/components/studios/tattoo-studio-item'
 import { Welcome } from '@/components/ui/welcome'
+import { getBooking } from '@/lib/actions/get-bookings'
 import { db } from '@/lib/prisma/client'
 import { formatDate } from '@/utils/date'
 
@@ -13,6 +14,8 @@ export default async function Home() {
       name: 'desc',
     },
   })
+
+  const bookings = await getBooking()
 
   return (
     <div>
@@ -25,12 +28,16 @@ export default async function Home() {
 
         <SearchForm />
 
-        <section className="px-6">
-          <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">
-            Agendamentos
-          </h2>
-          <UpcomingBookingCard />
-        </section>
+        {bookings && (
+          <section className="px-6">
+            <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">
+              Agendamentos
+            </h2>
+            {bookings.map((booking) => (
+              <UpcomingBookingCard key={booking.id} booking={booking} />
+            ))}
+          </section>
+        )}
 
         <section>
           <h2 className="mb-3 px-6 text-sm font-bold text-gray-400 uppercase">
