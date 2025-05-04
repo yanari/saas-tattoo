@@ -3,7 +3,7 @@ import { Header } from '@/components/layout/header'
 import { SearchForm } from '@/components/layout/search-form'
 import { TattooStudioItem } from '@/components/studios/tattoo-studio-item'
 import { Welcome } from '@/components/ui/welcome'
-import { getBooking } from '@/lib/actions/get-bookings'
+import { getBooking } from '@/lib/actions/bookings/get-bookings'
 import { db } from '@/lib/prisma/client'
 import { formatDate } from '@/utils/date'
 
