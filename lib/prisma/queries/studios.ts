@@ -49,7 +49,7 @@ export async function findStudioBySlug(slug: string) {
     ...studio,
     services: studio.services.map((service) => ({
       ...service,
-      price: service.price.toNumber(),
+      price: service.price,
     })),
   }
 }

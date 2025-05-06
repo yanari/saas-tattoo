@@ -1,3 +1,4 @@
+import { ArtistItem } from '@/components/artists/artist-item'
 import { UpcomingBookingCard } from '@/components/booking/upcoming-booking-card'
 import { Header } from '@/components/layout/header'
 import { SearchForm } from '@/components/layout/search-form'
@@ -9,11 +10,8 @@ import { formatDate } from '@/utils/date'
 
 export default async function Home() {
   const studios = await db.tattooStudio.findMany()
-  const popularStudios = await db.tattooStudio.findMany({
-    orderBy: {
-      name: 'desc',
-    },
-  })
+
+  const artists = await db.artist.findMany()
 
   const bookings = await getBooking()
 
@@ -41,7 +39,7 @@ export default async function Home() {
 
         <section>
           <h2 className="mb-3 px-6 text-sm font-bold text-gray-400 uppercase">
-            Recomendados
+            Estúdios Recomendados
           </h2>
           <div className="flex max-w-full gap-4 overflow-auto pl-6 [&::-webkit-scrollbar]:hidden [&>:last-of-type]:mr-6">
             {studios.map((studio) => (
@@ -51,11 +49,11 @@ export default async function Home() {
         </section>
         <section>
           <h2 className="mb-3 px-6 text-sm font-bold text-gray-400 uppercase">
-            Populares
+            Artistas Recomendados
           </h2>
           <div className="flex max-w-full gap-4 overflow-auto pl-6 [&::-webkit-scrollbar]:hidden [&>:last-of-type]:mr-6">
-            {popularStudios.map((studio) => (
-              <TattooStudioItem key={studio.id} studio={studio} />
+            {artists.map((artist) => (
+              <ArtistItem key={artist.id} artist={artist} />
             ))}
           </div>
         </section>

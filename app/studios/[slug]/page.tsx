@@ -27,47 +27,49 @@ export default async function StudioPage({ params }: StudioPageProps) {
   return (
     <div>
       <div className="border-grey sticky top-0 z-10 h-64 w-full border-b">
-        <header className="w-full p-4 text-center">
-          <Image
-            src={studio.imageUrl ?? ''}
-            className="absolute top-0 left-0 w-full object-cover"
-            alt={studio.name}
-            fill
-            priority
-          />
+        <div className="relative h-full">
+          <header className="w-full p-4 text-center">
+            <Image
+              src={studio.imageUrl ?? ''}
+              className="absolute top-0 left-0 w-full object-cover"
+              alt={studio.name}
+              fill
+              priority
+            />
 
-          <Button
-            asChild
-            size="icon"
-            variant="secondary"
-            className="absolute top-4 left-4"
-          >
-            <Link href="/">
-              <ChevronLeftIcon />
-            </Link>
-          </Button>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                size="icon"
-                variant="secondary"
-                className="absolute top-4 right-4"
-              >
-                <MenuIcon />
-              </Button>
-            </SheetTrigger>
+            <Button
+              asChild
+              size="icon"
+              variant="secondary"
+              className="absolute top-4 left-4"
+            >
+              <Link href="/">
+                <ChevronLeftIcon />
+              </Link>
+            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="absolute top-4 right-4"
+                >
+                  <MenuIcon />
+                </Button>
+              </SheetTrigger>
 
-            <Sidebar />
-          </Sheet>
-        </header>
+              <Sidebar />
+            </Sheet>
+          </header>
+        </div>
       </div>
 
-      <div className="to-background via-background/70 sticky top-32 z-20 border-b border-solid bg-gradient-to-b from-transparent p-5">
+      <div className="to-background via-background/70 sticky top-32 bottom-0 z-20 border-b border-solid bg-gradient-to-b from-transparent p-5">
         <h1 className="mb-3 text-xl font-bold">{studio.name}</h1>
 
         <div className="mb-2 flex items-center gap-2">
           <MapPinIcon className="text-primary" size={16} />
-          <p className="text-sm">{studio.address}</p>
+          <p className="text-sm">{studio.city}</p>
         </div>
 
         <div className="flex items-center gap-2">

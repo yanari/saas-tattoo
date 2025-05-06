@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Badge } from '../ui/badge'
 import { StarIcon } from 'lucide-react'
 import Link from 'next/link'
-import { StudioServicePreview } from './studio-service-preview'
+import { StudioServicesPreview } from './studio-services-preview'
 
 type TattooStudioWithServices = Prisma.TattooStudioGetPayload<{
   include: { services: true }
@@ -25,6 +25,7 @@ export function TattooStudioItem({
   studio,
   withServices,
 }: TattooStudioItemProps) {
+  console.log({ studio })
   const hasServices = withServices && 'services' in studio
   return (
     <Link
@@ -52,7 +53,7 @@ export function TattooStudioItem({
             <p className="truncate text-xs text-gray-400">{studio.address}</p>
 
             {hasServices ? (
-              <StudioServicePreview
+              <StudioServicesPreview
                 className="mt-2"
                 services={studio.services}
               />

@@ -106,14 +106,25 @@ model TattooStudioService {
 }
 
 model Artist {
-  id             String        @id @default(cuid())
-  name           String
-  bio            String?
-  styles         String[] // Ex: ["blackwork", "realismo"]
-  imageUrl       String?
-  portfolioUrls  String[] // Links de portfólio
+  id     String   @id @default(cuid())
+  name   String
+  bio    String?
+  styles String[] // Ex: ["blackwork", "realismo"]
+
+  instagram String? // @ do Instagram
+  city      String? // Cidade onde o estúdio está
+  location  Json? // {lat: -23, lng: -46}
+
+  address String? // Endereço físico
+  slug    String? @unique // Para URL amigável
+  email   String? @unique // Contato direto
+
+  imageUrl      String?
+  portfolioUrls String[] // Links de portfólio
+
   tattooStudio   TattooStudio? @relation(fields: [tattooStudioId], references: [id])
   tattooStudioId String?
+
   flashTattoos   FlashTattoo[]
   quotesReceived Quote[]
   feedbacks      Feedback[]

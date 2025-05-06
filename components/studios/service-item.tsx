@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { BookingForm } from '../booking/booking-form'
+import { StudioServiceBookingForm } from '../booking/studio-service-booking-form'
 
 type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
   price: number
@@ -56,7 +56,7 @@ export function ServiceItem({ service, studio }: ServiceItemProps) {
                   <SheetTitle>Reserve um horário</SheetTitle>
                 </SheetHeader>
 
-                <BookingForm service={service} studio={studio} />
+                <StudioServiceBookingForm service={service} studio={studio} />
               </SheetContent>
             </Sheet>
           </div>
