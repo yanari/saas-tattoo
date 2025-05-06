@@ -49,7 +49,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -65,9 +65,20 @@ model VerificationToken {
 
 // My Schemas
 model TattooStudio {
-  id       String                @id @default(cuid())
-  name     String
-  location String?
+  id   String @id @default(cuid())
+  name String
+
+  bio       String?
+  imageUrl  String? // Foto do estúdio
+  address   String? // Endereço físico
+  phones    String[] // Lista de telefones
+  slug      String?  @unique // Para URL amigável
+  email     String?  @unique // Contato direto
+  instagram String? // @ do Instagram
+  city      String? // Cidade onde o estúdio está
+  styles    String[] // Estilos que o estúdio oferece (["fineline", "blackwork"] etc.)
+  location  Json? // {lat: -23, lng: -46}
+
   services TattooStudioService[]
   artists  Artist[]
 
@@ -79,12 +90,16 @@ model TattooStudioService {
   id             String       @id @default(cuid())
   tattooStudio   TattooStudio @relation(fields: [tattooStudioId], references: [id])
   tattooStudioId String
-  name           String
-  description    String?
-  price          Float?
-  durationMin    Int?
-  imageUrl       String?
-  availability   Json?
+
+  name        String
+  description String?
+  price       Float?
+  durationMin Int?
+  imageUrl    String?
+
+  availability Json?
+
+  bookings Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -120,10 +135,12 @@ model FlashTattoo {
 }
 
 model Quote {
-  id            String         @id @default(cuid())
-  artist        Artist         @relation(fields: [artistId], references: [id])
-  artistId      String
-  clientEmail   String
+  id          String @id @default(cuid())
+  artist      Artist @relation(fields: [artistId], references: [id])
+  artistId    String
+  clientEmail String
+
+  title         String?
   description   String
   bodyPlacement String
   referenceUrls String[]
@@ -137,34 +154,61 @@ model Quote {
 }
 
 enum QuoteStatus {
-  PENDING
-  RESPONDED
-  APPROVED
-  REJECTED
-  CANCELED
+  PENDING // Enviado pelo cliente, aguardando resposta do artista
+  RESPONDED // O artista respondeu com proposta
+  APPROVED // Cliente aceitou a proposta
+  REJECTED // Cliente recusou
+  CANCELED // Cliente ou artista cancelou antes de finalizar
 }
 
 model QuoteResponse {
-  id           String   @id @default(cuid())
-  quote        Quote    @relation(fields: [quoteId], references: [id])
-  quoteId      String   @unique
-  price        Float
-  proposedDate DateTime
-  depositValue Float
+  id      String @id @default(cuid())
+  quote   Quote  @relation(fields: [quoteId], references: [id])
+  quoteId String @unique
+
+  price        Float // Valor total do orçamento
+  depositValue Float // Valor do sinal necessário
+  proposedDate DateTime // Data sugerida para o procedimento
+
+  paymentInstructions String? // Chave Pix, dados bancários ou observação sobre como pagar
+  expiresAt           DateTime? // Prazo para o cliente pagar o sinal
+  notes               String? // Observações gerais do artista (ex: cuidados prévios, preferências)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Booking {
-  id               String  @id @default(cuid())
-  quote            Quote   @relation(fields: [quoteId], references: [id])
-  quoteId          String  @unique
-  paymentConfirmed Boolean @default(false)
-  user             User?   @relation("UserBooking", fields: [userId], references: [id])
-  userId           String?
+enum BookingStatus {
+  PENDING // Agendado mas aguardando confirmação
+  AWAITING_PAYMENT // Cliente aceitou, mas ainda não pagou o sinal
+  CONFIRMED // Pagamento do sinal feito
+  CANCELLED // Cancelado pelo cliente ou artista
+  COMPLETED // Tatuagem concluída
+}
 
-  confirmedAt DateTime
+model Booking {
+  id String @id @default(cuid())
+
+  user   User?   @relation("UserBooking", fields: [userId], references: [id])
+  userId String?
+
+  artistQuote   Quote?  @relation(fields: [artistQuoteId], references: [id])
+  artistQuoteId String? @unique
+
+  tattooStudioService   TattooStudioService? @relation(fields: [tattooStudioServiceId], references: [id])
+  tattooStudioServiceId String?
+
+  startTime DateTime
+  endTime   DateTime
+
+  status BookingStatus @default(PENDING)
+
+  confirmedAt      DateTime?
+  paymentConfirmed Boolean   @default(false)
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Feedback {

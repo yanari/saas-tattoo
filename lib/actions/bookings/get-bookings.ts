@@ -16,7 +16,12 @@ export async function getBooking() {
       userId: session.user.id,
     },
     include: {
-      service: {
+      artistQuote: {
+        include: {
+          artist: true,
+        },
+      },
+      tattooStudioService: {
         include: {
           tattooStudio: true,
         },

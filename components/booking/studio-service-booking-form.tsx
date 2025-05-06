@@ -1,37 +1,41 @@
 'use client'
 
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
+// import { format } from 'date-fns'
+// import { ptBR } from 'date-fns/locale'
+// import { Button } from '@/components/ui/button'
+// import { Calendar } from '@/components/ui/calendar'
 import {
   SheetFooter,
   SheetDescription,
-  SheetClose,
+  // SheetClose,
 } from '@/components/ui/sheet'
-import { LoginModalTrigger } from '@/components/layout/login-modal-trigger'
-import { useBooking } from '@/hooks/useBooking'
+// import { LoginModalTrigger } from '@/components/layout/login-modal-trigger'
+// import { useStudioServiceBooking } from '@/hooks/useStudioServiceBooking'
 import { TattooStudio, TattooStudioService } from '@prisma/client'
-import { ConfirmationCard } from './confirmation-card'
+// import { ConfirmationCard } from './confirmation-card'
 
 interface BookingFormProps {
   service: Omit<TattooStudioService, 'price'> & { price: number }
   studio: Pick<TattooStudio, 'name' | 'slug'>
 }
 
-export function BookingForm({ service, studio }: BookingFormProps) {
-  const {
-    selectedDay,
-    selectedDuration,
-    disabledDays,
-    slotsForSelectedDay,
-    setSelectedDay,
-    setSelectedDuration,
-    isDisabled,
-    handleCreateBooking,
-    callbackUrl,
-    isUserLoggedIn,
-  } = useBooking({ service, studio })
+export function StudioServiceBookingForm({
+  service,
+  studio,
+}: BookingFormProps) {
+  console.log({ service, studio })
+  // const {
+  //   selectedDay,
+  //   selectedDuration,
+  //   disabledDays,
+  //   slotsForSelectedDay,
+  //   setSelectedDay,
+  //   setSelectedDuration,
+  //   isDisabled,
+  //   handleCreateBooking,
+  //   callbackUrl,
+  //   isUserLoggedIn,
+  // } = useStudioServiceBooking({ service, studio })
 
   return (
     <>
@@ -43,16 +47,16 @@ export function BookingForm({ service, studio }: BookingFormProps) {
       </SheetDescription>
 
       <div className="border-b border-solid pb-6">
-        <Calendar
+        {/* <Calendar
           mode="single"
           disabled={disabledDays}
           locale={ptBR}
           selected={selectedDay}
           onSelect={setSelectedDay}
-        />
+        /> */}
       </div>
 
-      {selectedDay && (
+      {/* {selectedDay && (
         <div className="flex gap-2 overflow-x-auto border-b border-solid pb-4 pl-4 [&::-webkit-scrollbar]:hidden">
           {slotsForSelectedDay.map((slot, index) => {
             const start = new Date(`1970-01-01T${slot.startTime}:00Z`)
@@ -74,9 +78,9 @@ export function BookingForm({ service, studio }: BookingFormProps) {
             )
           })}
         </div>
-      )}
+      )} */}
 
-      {selectedDuration && selectedDay && (
+      {/* {selectedDuration && selectedDay && (
         <div className="px-4">
           <ConfirmationCard
             className="p-3"
@@ -87,10 +91,10 @@ export function BookingForm({ service, studio }: BookingFormProps) {
             studioName={studio.name}
           />
         </div>
-      )}
+      )} */}
 
       <SheetFooter>
-        {isUserLoggedIn ? (
+        {/* {isUserLoggedIn ? (
           <SheetClose asChild>
             <Button
               disabled={isDisabled}
@@ -106,7 +110,7 @@ export function BookingForm({ service, studio }: BookingFormProps) {
               Confirmar
             </Button>
           </LoginModalTrigger>
-        )}
+        )} */}
       </SheetFooter>
     </>
   )
