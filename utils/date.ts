@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+
 export function formatDate() {
   return new Intl.DateTimeFormat('pt-BR', {
     weekday: 'long',
@@ -19,7 +21,7 @@ export function isDateUnavailable(
   return (date: Date) => {
     const key = date.toISOString().split('T')[0]
     const slots = availability[key]
-    return !slots || slots.some((slot) => !slot.isAvailable)
+    return !slots || slots.every((slot) => !slot.isAvailable)
   }
 }
 
@@ -40,4 +42,24 @@ export function constructDateWithTime({
     time.getHours() || 0,
     time.getMinutes() || 0,
   )
+}
+
+interface FormatToISOLocalParams {
+  dayOnly?: boolean
+  timeOnly?: boolean
+}
+
+export function formatToISOLocal(
+  date: Date | undefined,
+  { dayOnly = false, timeOnly = false }: FormatToISOLocalParams = {},
+) {
+  if (!date) return ''
+
+  if (dayOnly) {
+    return format(date, 'yyyy-MM-dd')
+  }
+  if (timeOnly) {
+    return format(date, 'HH:mm')
+  }
+  return format(date, "yyyy-MM-dd'T'HH:mm:ss")
 }

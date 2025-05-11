@@ -58,9 +58,11 @@ export function StudioServiceBookingForm({
       {selectedDay && (
         <div className="flex gap-2 overflow-x-auto border-b border-solid pb-4 pl-4 [&::-webkit-scrollbar]:hidden">
           {slotsForSelectedDay.map((slot, index) => {
-            const day = selectedDay.toISOString().split('T')[0]
-            const start = new Date(`${day}T${slot.startTime}:00Z`)
-            const end = new Date(`${day}T${slot.endTime}:00Z`)
+            const day = format(selectedDay, 'yyyy-MM-dd')
+
+            const start = new Date(`${day}T${slot.startTime}`)
+            const end = new Date(`${day}T${slot.endTime}`)
+
             const isSelected =
               selectedDuration?.startTime?.getTime() === start.getTime()
 
@@ -86,8 +88,7 @@ export function StudioServiceBookingForm({
             className="p-3"
             serviceName={service.name}
             servicePrice={service.price.toString()}
-            dateInISOString={selectedDay.toISOString()}
-            startTimeInISOString={selectedDuration.startTime.toISOString()}
+            startTime={selectedDuration.startTime}
             studioName={studio.name}
           />
         </div>

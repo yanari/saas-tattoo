@@ -7,9 +7,9 @@ interface BookingState {
   servicePrice?: number
   studioSlug?: string
   studioName?: string
-  selectedDay?: string // ISO string
-  startTime?: string // ISO string
-  endTime?: string // ISO string
+  selectedDay?: string // ISO Local
+  startTime?: string // ISO Local
+  endTime?: string // ISO Local
   setBookingData: (data: Partial<BookingState>) => void
   clearBooking: () => void
 }

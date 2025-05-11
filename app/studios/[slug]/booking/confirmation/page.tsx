@@ -11,8 +11,7 @@ export default function StudiosBookingConfirmationPage() {
 
   const serviceName = params.get('serviceName') ?? ''
   const servicePrice = params.get('servicePrice') ?? ''
-  const date = params.get('date')
-  const startTime = params.get('startTime')
+  const startTime = new Date(params.get('startTime') ?? '')
   const studioName = params.get('studioName') ?? ''
 
   return (
@@ -28,8 +27,7 @@ export default function StudiosBookingConfirmationPage() {
         className="mb-8 w-full px-5 sm:w-xl"
         serviceName={serviceName}
         servicePrice={servicePrice}
-        dateInISOString={date}
-        startTimeInISOString={startTime}
+        startTime={startTime}
         studioName={studioName}
       />
 

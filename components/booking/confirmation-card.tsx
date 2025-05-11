@@ -7,8 +7,7 @@ interface ConfirmationCardProps {
   className?: string
   serviceName: string
   servicePrice: string
-  dateInISOString: string | null
-  startTimeInISOString: string | null
+  startTime: Date | null
   studioName: string
 }
 
@@ -16,8 +15,7 @@ export function ConfirmationCard({
   className,
   serviceName,
   servicePrice,
-  dateInISOString,
-  startTimeInISOString,
+  startTime,
   studioName,
 }: ConfirmationCardProps) {
   return (
@@ -33,22 +31,22 @@ export function ConfirmationCard({
           </p>
         </div>
 
-        {dateInISOString && (
+        {startTime && (
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-gray-400">Data</h2>
             <p className="text-right text-sm">
-              {format(new Date(dateInISOString), "d 'de' MMMM", {
+              {format(startTime, "d 'de' MMMM", {
                 locale: ptBR,
               })}
             </p>
           </div>
         )}
 
-        {startTimeInISOString && (
+        {startTime && (
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-gray-400">Horário</h2>
             <p className="text-right text-sm">
-              {format(new Date(startTimeInISOString), 'HH:mm', {
+              {format(startTime, 'HH:mm', {
                 locale: ptBR,
               })}
             </p>

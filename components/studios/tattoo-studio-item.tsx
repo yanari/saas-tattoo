@@ -25,7 +25,6 @@ export function TattooStudioItem({
   studio,
   withServices,
 }: TattooStudioItemProps) {
-  console.log({ studio })
   const hasServices = withServices && 'services' in studio
   return (
     <Link

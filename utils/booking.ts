@@ -1,3 +1,5 @@
+import { formatToISOLocal } from './date'
+
 export interface DurationTime {
   startTime: Date
   endTime: Date
@@ -29,8 +31,8 @@ export function buildBookingParams(params: BaseBookingParams): string {
     serviceName: params.serviceName,
     servicePrice: params.servicePrice.toString(),
     studioName: params.studioName,
-    startTime: params.startTime?.toISOString() ?? '',
-    endTime: params.endTime?.toISOString() ?? '',
+    startTime: formatToISOLocal(params.startTime),
+    endTime: formatToISOLocal(params.endTime),
   })
 
   return searchParams.toString()

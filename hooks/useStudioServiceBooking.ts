@@ -11,7 +11,11 @@ import {
 } from '@/utils/booking'
 import { parseAvailability } from '@/utils/availability'
 import { TattooStudio, TattooStudioService } from '@prisma/client'
-import { constructDateWithTime, isDateUnavailable } from '@/utils/date'
+import {
+  constructDateWithTime,
+  formatToISOLocal,
+  isDateUnavailable,
+} from '@/utils/date'
 import { updateSlotAvailability } from '@/lib/actions/services/update-slot-availability'
 import { useBookingStore } from '@/stores/booking-store'
 
@@ -36,9 +40,12 @@ export function useStudioServiceBooking({
 
   const disabledDays = isDateUnavailable(availability)
 
-  const selectedKey = selectedDay?.toISOString().split('T')[0] ?? ''
+  // const selectedKey = selectedDay?.toUTCString().split('T')[0] ?? ''
+  const selectedKey = formatToISOLocal(selectedDay, { dayOnly: true })
 
-  const slotsForSelectedDay = availability[selectedKey] || []
+  const slotsForSelectedDay = (availability[selectedKey] || []).filter(
+    (slot) => slot.isAvailable,
+  )
 
   const isDisabled = isBookingIncomplete(selectedDay, selectedDuration)
 
@@ -70,9 +77,9 @@ export function useStudioServiceBooking({
       servicePrice: service.price,
       studioSlug: studio.slug ?? '',
       studioName: studio.name,
-      selectedDay: selectedDay.toISOString(),
-      startTime: selectedDuration.startTime.toISOString(),
-      endTime: selectedDuration.endTime.toISOString(),
+      selectedDay: formatToISOLocal(selectedDay),
+      startTime: formatToISOLocal(selectedDuration.startTime),
+      endTime: formatToISOLocal(selectedDuration.endTime),
     })
 
     const isLoggedIn = Boolean(session?.user?.id)
@@ -91,11 +98,10 @@ export function useStudioServiceBooking({
 
       await updateSlotAvailability({
         serviceId: service.id,
-        date: selectedDay.toISOString().split('T')[0],
-        startTime: selectedDuration.startTime
-          .toISOString()
-          .split('T')[1]
-          .slice(0, 5),
+        date: formatToISOLocal(selectedDay, { dayOnly: true }),
+        startTime: formatToISOLocal(selectedDuration.startTime, {
+          timeOnly: true,
+        }),
         isAvailable: false,
       })
 
