@@ -93,7 +93,7 @@ model TattooStudioService {
 
   name        String
   description String?
-  price       Float?
+  price       Float
   durationMin Int?
   imageUrl    String?
 

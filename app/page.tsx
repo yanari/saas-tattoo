@@ -31,9 +31,11 @@ export default async function Home() {
             <h2 className="mb-3 text-sm font-bold text-gray-400 uppercase">
               Agendamentos
             </h2>
-            {bookings.map((booking) => (
-              <UpcomingBookingCard key={booking.id} booking={booking} />
-            ))}
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+              {bookings.map((booking) => (
+                <UpcomingBookingCard key={booking.id} booking={booking} />
+              ))}
+            </div>
           </section>
         )}
 

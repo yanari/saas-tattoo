@@ -19,6 +19,25 @@ export function isDateUnavailable(
   return (date: Date) => {
     const key = date.toISOString().split('T')[0]
     const slots = availability[key]
-    return !slots || slots.some((slot) => slot.isAvailable)
+    return !slots || slots.some((slot) => !slot.isAvailable)
   }
+}
+
+interface ConstructDateWithTimeParams {
+  day: Date | undefined
+  time: Date | undefined
+}
+
+export function constructDateWithTime({
+  day,
+  time,
+}: ConstructDateWithTimeParams) {
+  if (!day || !time) return undefined
+  return new Date(
+    day.getFullYear(),
+    day.getMonth(),
+    day.getDate(),
+    time.getHours() || 0,
+    time.getMinutes() || 0,
+  )
 }

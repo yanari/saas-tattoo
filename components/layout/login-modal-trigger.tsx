@@ -8,33 +8,50 @@ import {
   DialogDescription,
   DialogHeader,
 } from '../ui/dialog'
-import { useEffect, useState, type ReactNode } from 'react'
+import {
+  useEffect,
+  useState,
+  type ReactElement,
+  cloneElement,
+  type MouseEventHandler,
+} from 'react'
 import { useSession } from 'next-auth/react'
 import { LoginButton } from '../ui/login-button'
 
+type ClickableElement = ReactElement<{ onClick?: MouseEventHandler }>
+
 export type LoginModalTriggerProps = {
-  children: ReactNode
-  callbackUrl?: string
+  children: ClickableElement
   autoCloseOnLogin?: boolean
+  onOpen?: () => void
+  callbackUrl?: string
 }
 
 export function LoginModalTrigger({
   children,
-  callbackUrl,
   autoCloseOnLogin = false,
+  onOpen,
+  callbackUrl,
 }: LoginModalTriggerProps) {
   const [open, setOpen] = useState(false)
   const { status } = useSession()
 
   useEffect(() => {
-    if (autoCloseOnLogin && status === 'authenticated') {
+    if (autoCloseOnLogin && open && status === 'authenticated') {
       setOpen(false)
     }
-  }, [status, autoCloseOnLogin])
+  }, [status, autoCloseOnLogin, open])
+
+  const trigger = cloneElement(children, {
+    onClick: (e) => {
+      children.props?.onClick?.(e)
+      onOpen?.()
+    },
+  })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
 
       <DialogContent className="w-11/12">
         <DialogHeader>

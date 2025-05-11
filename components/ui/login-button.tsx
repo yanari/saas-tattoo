@@ -25,9 +25,10 @@ export function LoginButton({ provider, callbackUrl }: LoginButtonProps) {
 
   return (
     <Button
-      onClick={() => signIn(provider, { callbackUrl: callbackUrl || '/' })}
+      onClick={() => signIn('google', { callbackUrl })}
       variant="outline"
       className="font-bold"
+      type="button"
     >
       <Image
         className="text-white"

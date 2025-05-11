@@ -36,7 +36,7 @@ export function ConfirmationCard({
         {dateInISOString && (
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-gray-400">Data</h2>
-            <p className="text-sm">
+            <p className="text-right text-sm">
               {format(new Date(dateInISOString), "d 'de' MMMM", {
                 locale: ptBR,
               })}
@@ -47,7 +47,7 @@ export function ConfirmationCard({
         {startTimeInISOString && (
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-gray-400">Horário</h2>
-            <p className="text-sm">
+            <p className="text-right text-sm">
               {format(new Date(startTimeInISOString), 'HH:mm', {
                 locale: ptBR,
               })}
@@ -57,7 +57,7 @@ export function ConfirmationCard({
 
         <div className="flex items-center justify-between">
           <h2 className="text-sm text-gray-400">Estúdio</h2>
-          <p className="text-sm">{studioName}</p>
+          <p className="text-right text-sm">{studioName}</p>
         </div>
       </CardContent>
     </Card>

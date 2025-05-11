@@ -1,59 +1,95 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { useEffect, useRef } from 'react'
-import { useSearchParams, useRouter, useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { createBooking } from '@/lib/actions/create-booking'
-import { Loader2 } from 'lucide-react'
-import { buildBookingParams } from '@/utils/booking'
 
-// TODO: pass only serviceId and run query on where its passed to instead of passing as params
-export default function StudiosBookingRedirectPage() {
-  const { status, data: session } = useSession()
+import { useBookingStore } from '@/stores/booking-store'
+import { createBooking } from '@/lib/actions/bookings/create-booking'
+import { updateSlotAvailability } from '@/lib/actions/services/update-slot-availability'
+import { Loader2 } from 'lucide-react'
+
+export default function BookingRedirectPage() {
+  const { data: session, status } = useSession()
   const { slug } = useParams() as { slug: string }
-  const params = useSearchParams()
   const router = useRouter()
-  const hasRun = useRef(false)
+  const {
+    serviceId,
+    serviceName,
+    servicePrice,
+    studioSlug,
+    studioName,
+    selectedDay,
+    startTime,
+    endTime,
+    clearBooking,
+  } = useBookingStore()
+
+  const [processing, setProcessing] = useState(false)
 
   useEffect(() => {
-    if (hasRun.current || status !== 'authenticated') return
-
-    const serviceId = params.get('serviceId')
-    const date = params.get('date')
-    const startTime = params.get('startTime')
-    const endTime = params.get('endTime')
-    const userId = session?.user?.id
-
-    if (serviceId && date && startTime && endTime && userId) {
-      hasRun.current = true
-
-      createBooking({
-        serviceId,
-        date: new Date(date),
-        startTime,
-        endTime,
-        userId,
-      })
-        .then(() => {
-          toast.success('Reserva criada com sucesso.')
-          const query = buildBookingParams({
-            serviceId,
-            serviceName: params.get('serviceName') ?? '',
-            servicePrice: Number(params.get('servicePrice') ?? 0),
-            studioName: params.get('studioName') ?? '',
-            date: new Date(date),
-            startTime: new Date(startTime),
-            endTime: new Date(endTime),
-          })
-
-          router.push(`/studios/${slug}/booking/confirmation?${query}`)
-        })
-        .catch(() => {
-          toast.error('Erro ao criar a reserva.')
-        })
+    if (processing) return
+    if (status !== 'authenticated') return
+    if (!serviceId || !selectedDay || !startTime || !endTime) {
+      toast.error('Dados do agendamento incompletos.')
+      return
     }
-  }, [status, session, params, router, slug])
+
+    const create = async () => {
+      setProcessing(true)
+      try {
+        await createBooking({
+          tattooStudioServiceId: serviceId,
+          userId: session.user.id,
+          startTime: new Date(startTime),
+          endTime: new Date(endTime),
+        })
+
+        await updateSlotAvailability({
+          serviceId,
+          date: selectedDay.split('T')[0],
+          startTime: startTime.split('T')[1]?.slice(0, 5) ?? '',
+          isAvailable: false,
+        })
+
+        toast.success('Reserva criada com sucesso.')
+        clearBooking()
+        router.push(
+          `/studios/${slug}//booking/confirmation?` +
+            new URLSearchParams({
+              serviceName: serviceName ?? '',
+              servicePrice: String(servicePrice ?? ''),
+              date: selectedDay,
+              startTime: startTime,
+              studioName: studioName ?? '',
+            }).toString(),
+        )
+      } catch (err) {
+        console.error(err)
+        toast.error('Erro ao criar a reserva.')
+      } finally {
+        setProcessing(false)
+      }
+    }
+
+    create()
+  }, [
+    status,
+    serviceId,
+    selectedDay,
+    startTime,
+    endTime,
+    servicePrice,
+    clearBooking,
+    processing,
+    router,
+    serviceName,
+    session?.user.id,
+    studioSlug,
+    studioName,
+    slug,
+  ])
 
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">

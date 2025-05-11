@@ -8,7 +8,6 @@ interface BaseBookingParams {
   serviceName: string
   servicePrice: number
   studioName: string
-  date?: Date
   startTime?: Date
   endTime?: Date
 }
@@ -30,7 +29,6 @@ export function buildBookingParams(params: BaseBookingParams): string {
     serviceName: params.serviceName,
     servicePrice: params.servicePrice.toString(),
     studioName: params.studioName,
-    date: params.date?.toISOString() ?? '',
     startTime: params.startTime?.toISOString() ?? '',
     endTime: params.endTime?.toISOString() ?? '',
   })
@@ -41,7 +39,13 @@ export function buildBookingParams(params: BaseBookingParams): string {
 export function getBookingCallbackUrl({
   studioSlug,
   ...params
-}: GetBookingCallbackUrlParams): string {
+}: GetBookingCallbackUrlParams): {
+  redirectUrl: string
+  confirmationUrl: string
+} {
   const query = buildBookingParams(params)
-  return `/studios/${studioSlug}/booking/redirect?${query}`
+  return {
+    confirmationUrl: `/studios/${studioSlug}/booking/confirmation?${query}`,
+    redirectUrl: `/studios/${studioSlug}/booking/redirect?${query}`,
+  }
 }

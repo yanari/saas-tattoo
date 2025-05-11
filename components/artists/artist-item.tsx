@@ -10,7 +10,6 @@ interface ArtistItemProps {
 }
 
 export function ArtistItem({ artist }: ArtistItemProps) {
-  console.log({ artist })
   return (
     <Link
       className="min-w-44 transition-all hover:shadow-lg hover:brightness-110"

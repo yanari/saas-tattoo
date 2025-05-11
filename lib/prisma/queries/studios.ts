@@ -47,9 +47,6 @@ export async function findStudioBySlug(slug: string) {
 
   return {
     ...studio,
-    services: studio.services.map((service) => ({
-      ...service,
-      price: service.price,
-    })),
+    services: studio.services,
   }
 }

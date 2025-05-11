@@ -6,21 +6,17 @@ import { DayPicker, getDefaultClassNames } from 'react-day-picker'
 import { cn } from '@/lib/utils'
 import 'react-day-picker/style.css'
 
-type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-  disabledDays?: Date[]
-}
+type CalendarProps = React.ComponentProps<typeof DayPicker>
 
 function Calendar({
   className,
   showOutsideDays = true,
-  disabledDays = [],
   ...props
 }: CalendarProps) {
   const defaultClassNames = getDefaultClassNames()
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      disabled={disabledDays}
       className={cn('p-3', className)}
       classNames={{
         today: 'text-primary border-primary', // Add a border to today's date

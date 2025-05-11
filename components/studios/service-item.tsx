@@ -14,12 +14,8 @@ import {
 } from '@/components/ui/sheet'
 import { StudioServiceBookingForm } from '../booking/studio-service-booking-form'
 
-type TattooStudioServiceWithPrice = Omit<TattooStudioService, 'price'> & {
-  price: number
-}
-
 interface ServiceItemProps {
-  service: TattooStudioServiceWithPrice
+  service: TattooStudioService
   studio: Pick<TattooStudio, 'name' | 'slug'>
 }
 

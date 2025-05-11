@@ -15,7 +15,7 @@ import { TattooStudio, TattooStudioService } from '@prisma/client'
 import { ConfirmationCard } from './confirmation-card'
 
 interface BookingFormProps {
-  service: Omit<TattooStudioService, 'price'> & { price: number }
+  service: TattooStudioService
   studio: Pick<TattooStudio, 'name' | 'slug'>
 }
 
@@ -23,7 +23,6 @@ export function StudioServiceBookingForm({
   service,
   studio,
 }: BookingFormProps) {
-  console.log({ service, studio })
   const {
     selectedDay,
     selectedDuration,
@@ -32,9 +31,9 @@ export function StudioServiceBookingForm({
     setSelectedDay,
     setSelectedDuration,
     isDisabled,
-    handleCreateBooking,
-    callbackUrl,
     isUserLoggedIn,
+    handleCreateBooking,
+    redirectUrl,
   } = useStudioServiceBooking({ service, studio })
 
   return (
@@ -59,8 +58,9 @@ export function StudioServiceBookingForm({
       {selectedDay && (
         <div className="flex gap-2 overflow-x-auto border-b border-solid pb-4 pl-4 [&::-webkit-scrollbar]:hidden">
           {slotsForSelectedDay.map((slot, index) => {
-            const start = new Date(`1970-01-01T${slot.startTime}:00Z`)
-            const end = new Date(`1970-01-01T${slot.endTime}:00Z`)
+            const day = selectedDay.toISOString().split('T')[0]
+            const start = new Date(`${day}T${slot.startTime}:00Z`)
+            const end = new Date(`${day}T${slot.endTime}:00Z`)
             const isSelected =
               selectedDuration?.startTime?.getTime() === start.getTime()
 
@@ -105,7 +105,11 @@ export function StudioServiceBookingForm({
             </Button>
           </SheetClose>
         ) : (
-          <LoginModalTrigger autoCloseOnLogin callbackUrl={callbackUrl}>
+          <LoginModalTrigger
+            autoCloseOnLogin
+            onOpen={handleCreateBooking}
+            callbackUrl={redirectUrl}
+          >
             <Button disabled={isDisabled} className="w-full">
               Confirmar
             </Button>
