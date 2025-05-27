@@ -1,24 +1,22 @@
 export const dynamic = 'force-dynamic'
 
-import { TattooStudioItem } from '@/components/studios/tattoo-studio-item'
 import { Header } from '@/components/layout/header'
 import { SearchForm } from '@/components/layout/search-form'
-import { findStudiosWithMatchingServices } from '@/lib/prisma/queries/studios'
+import { searchStudiosAndArtists } from '@/lib/actions/search/search-entities'
+import { SearchStudioItem } from '@/components/search/search-studio-item'
+import { SearchArtistItem } from '@/components/search/search-artist.item'
 
-interface StudioPageProps {
+interface ExplorePageProps {
   searchParams: Promise<{
     search?: string
   }>
 }
 
-export default async function StudiosPage(props: StudioPageProps) {
+export default async function ExplorePage(props: ExplorePageProps) {
   const searchParams = await props.searchParams
   const search = searchParams?.search || ''
 
-  const studios = await findStudiosWithMatchingServices({
-    search,
-    withServices: true,
-  })
+  const results = await searchStudiosAndArtists(search)
 
   return (
     <div>
@@ -31,9 +29,13 @@ export default async function StudiosPage(props: StudioPageProps) {
           Resultados para &ldquo;{search}&rdquo;:
         </h2>
         <div className="grid gap-5 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
-          {studios.map((studio) => (
-            <TattooStudioItem key={studio.id} studio={studio} withServices />
-          ))}
+          {results.map((item) =>
+            item.type === 'studio' ? (
+              <SearchStudioItem key={item.id} studio={item} />
+            ) : (
+              <SearchArtistItem key={item.id} artist={item} />
+            ),
+          )}
         </div>
       </div>
     </div>

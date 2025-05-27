@@ -22,7 +22,7 @@ export function SearchForm() {
   const router = useRouter()
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    router.push(`/studios?search=${values.search}`)
+    router.push(`/explore?search=${values.search}`)
   }
 
   return (

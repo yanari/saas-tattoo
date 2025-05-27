@@ -56,7 +56,7 @@ export default function BookingRedirectPage() {
         toast.success('Reserva criada com sucesso.')
         clearBooking()
         router.push(
-          `/studios/${slug}//booking/confirmation?` +
+          `/studios/${slug}/booking/confirmation?` +
             new URLSearchParams({
               serviceName: serviceName ?? '',
               servicePrice: String(servicePrice ?? ''),
