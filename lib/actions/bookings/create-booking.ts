@@ -32,6 +32,10 @@ export async function createBooking({
     throw new Error('User not authenticated')
   }
 
+  if (session.user.role !== 'CLIENT') {
+    throw new Error('Only client users can create bookings')
+  }
+
   if (!userId) {
     throw new Error('User not provided')
   }

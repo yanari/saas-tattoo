@@ -11,6 +11,10 @@ export async function getBooking() {
     return null
   }
 
+  if (session.user.role !== 'CLIENT') {
+    return []
+  }
+
   return await db.booking.findMany({
     where: {
       userId: session.user.id,
