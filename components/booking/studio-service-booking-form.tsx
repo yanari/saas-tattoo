@@ -10,7 +10,7 @@ import {
   SheetClose,
 } from '@/components/ui/sheet'
 import { LoginModalTrigger } from '@/components/layout/login-modal-trigger'
-import { useStudioServiceBooking } from '@/hooks/useStudioServiceBooking'
+import { useStudioServiceBooking } from '@/hooks/use-studio-service-booking'
 import { TattooStudio, TattooStudioService } from '@prisma/client'
 import { ConfirmationCard } from './confirmation-card'
 
